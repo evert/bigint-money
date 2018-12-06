@@ -24,6 +24,10 @@
   },
   "homepage": "https://github.com/evert/bigint-money#readme",
   "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "tslint": "^5.11.0",
     "typescript": "^3.2.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
