@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/evert/big-money.git"
+    "url": "git+ssh://git@github.com/evert/bigint-money.git"
   },
   "keywords": [
     "money",
@@ -20,9 +20,9 @@
   "author": "Evert Pot",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/evert/big-money/issues"
+    "url": "https://github.com/evert/bigint-money/issues"
   },
-  "homepage": "https://github.com/evert/big-money#readme",
+  "homepage": "https://github.com/evert/bigint-money#readme",
   "devDependencies": {
     "typescript": "^3.2.1",
     "webpack": "^4.27.1",
