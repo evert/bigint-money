@@ -1,4 +1,4 @@
-const { Money, UnsafeIntegerError, IncompatibleCurrencyError } = require('../src/index');
+import { Money, UnsafeIntegerError, IncompatibleCurrencyError } from '../src';
 const { expect } = require('chai');
 
 describe('Money class', () => {
@@ -14,7 +14,7 @@ describe('Money class', () => {
   it('should error when instantiating with inprecise numbers', () => {
 
     expect( () => { 
-      new Money(1.1);
+      new Money(1.1, 'YEN');
     }).to.throw(UnsafeIntegerError);
 
   });
