@@ -19,7 +19,6 @@ export class Money {
     this.currency = currency;
 
     this.value = moneyValueToBigInt(value);
-    console.log(this.value);
 
   }
 
