@@ -35,11 +35,11 @@ watch:
 
 .PHONY: browserbuild
 browserbuild: tsbuild
-	mkdir -p browser
-	webpack \
-		--optimize-minimize \
-		-p \
-		--display-modules \
-		--sort-modules-by size
+	# mkdir -p browser
+	# webpack \
+	#	--optimize-minimize \
+	#	-p \
+	#	--display-modules \
+	#	--sort-modules-by size
 
 browser/${PROJECT}.min.js: browserbuild
