@@ -9,3 +9,4 @@ export class UnsafeIntegerError extends Error { }
  * Thrown when, for example trying to add USD to YEN
  */
 export class IncompatibleCurrencyError extends Error { }
+
