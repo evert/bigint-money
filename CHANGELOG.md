@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.1.1 (2018-12-11)
+------------------
+
+* Fixed bugs.
+* More test coverage
+* Support for passing negative and floating point-as-string in constructor.
+* Readme with docs.
+
+
 0.1.0 (2018-12-10)
 ------------------
 
