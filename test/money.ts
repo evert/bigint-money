@@ -10,10 +10,10 @@ describe('Money class', () => {
     expect(m.currency).to.equal('USD');
 
   });
- 
+
   it('should error when instantiating with inprecise numbers', () => {
 
-    expect( () => { 
+    expect( () => {
       new Money(1.1, 'YEN');
     }).to.throw(UnsafeIntegerError);
 
@@ -25,7 +25,7 @@ describe('Money class', () => {
 
       const m = new Money(1, 'USD');
       expect(m.toFixed(3)).to.equal('1.000');
-        
+
     });
 
   });
@@ -60,6 +60,29 @@ describe('Money class', () => {
       expect( () => y.add(x)).to.throw(IncompatibleCurrencyError);
 
     });
+
+    const cases = [
+      ['0.1', '0.2', '0.30'],
+      ['0.3', '-0.2', '0.10'],
+      [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, '18014398509481982.00'],
+      // If these were floats, we'd expect this to round to 17.96. Without
+      // rounding errors, this should go to 17.95
+      ['17.954', '.001', '17.95'],
+    ];
+
+    for(const cas of cases) {
+
+      it(`${cas[0]} + ${cas[1]} = ${cas[2]}`, () => {
+
+        const x = new Money(cas[0], 'USD');
+        const y = new Money(cas[1], 'USD');
+
+        expect(x.add(y).toFixed(2)).to.equal(cas[2]);
+
+      });
+
+    }
+
   });
 
   describe('subtract', () => {
@@ -92,6 +115,27 @@ describe('Money class', () => {
       expect( () => y.subtract(x)).to.throw(IncompatibleCurrencyError);
 
     });
+
+    const cases = [
+      ['0.1', '0.2', '-0.10'],
+      ['0.3', '-0.2', '0.50'],
+      // These are larger than MAX_SAFE_INT
+      ['9007199254740992.555555555','9007199254740992.555555555', '0.00'],
+    ];
+
+    for(const cas of cases) {
+
+      it(`${cas[0]} + ${cas[1]} = ${cas[2]}`, () => {
+
+        const x = new Money(cas[0], 'USD');
+        const y = new Money(cas[1], 'USD');
+
+        expect(x.subtract(y).toFixed(2)).to.equal(cas[2]);
+
+      });
+
+    }
+
 
   });
 
