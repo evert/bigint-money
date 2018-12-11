@@ -25,16 +25,23 @@ export class Money {
   toFixed(precision: number): string {
 
     const result = this.value.toString();
-    if (precision > PRECISION) {
-      // caller wants more precision than we have, add 0's.
-      return result.substr(0, result.length - PRECISION_I) +
-        '.' + result.substr(result.length - PRECISION_I) +
-        '0'.repeat(precision - PRECISION_I);
-    } else {
-      // Caller wants less precision than we have. Strip digits.
-      return result.substr(0, result.length - PRECISION_I) +
-        '.' + result.substr(-(PRECISION_I - precision), precision);
+
+    const fractionalPart = result.substr(Number(-PRECISION));
+    let wholePart = result.substr(0, result.length - fractionalPart.length);
+
+    if (wholePart === '') wholePart = '0';
+    if (wholePart === '-') wholePart = '-0';
+
+    if (precision === 0) {
+      return wholePart;
     }
+
+    if (precision > fractionalPart.length) {
+      return wholePart + '.' + fractionalPart + ('0'.repeat(precision - fractionalPart.length));
+    }
+
+    // Caller wants less precision than we have. Strip digits.
+    return wholePart + '.' + fractionalPart.substr(0, precision);
 
   }
 
@@ -79,10 +86,31 @@ function moneyValueToBigInt(input: Money | string | number | bigint): bigint {
 
   switch (typeof input) {
     case 'string' :
-      const parts = input.split('.');
-      const output = BigInt(parts[0]) ** PRECISION_M;
-      if (parts.length === 2) {
-        throw new Error('Fractions are not yet supported in strings');
+      const parts = input.match(/^(-)?([0-9]*)?(\.([0-9]*))?$/);
+
+      if (!parts) {
+        throw new TypeError('Input string must follow the pattern (-)##.## or -##');
+      }
+
+      let output:bigint;
+      // The whole part
+      if (parts[2] === undefined) {
+        // For numbers like ".04" this part will be undefined.
+        output = 0n;
+      } else {
+        output = BigInt(parts[2]) * PRECISION_M;
+      }
+
+      // The fractional part
+      const precisionDifference:bigint = (PRECISION - BigInt(parts[4].length));
+
+      // The length of the fraction is less than precision.
+      // This should add or remove 0's on demand.
+      output += BigInt(parts[4]) * 10n ** precisionDifference;
+
+      // negative ?
+      if (parts[1]==='-') {
+        output *= -1n;
       }
       return output;
     case 'bigint':
