@@ -6,7 +6,7 @@ uses the Ecmascript [bigint][2] type. It's written in Typescript,
 but can be used by Javascript as well.
 
 `bigint` is really new. As of today, this library only works in
-up-to-date versions of Chrome and Firefox.
+up-to-date versions of Chrome and Node.js. See [caniuse.com][5].
 
 This library more-or-less follows [Martin Fowler's Money Type][3] from
 ["Patterns of Enterprise Application Architecture"][4].
@@ -63,6 +63,32 @@ not change the original value:
 console.log(foo.toFixed(2), bar.toFixed(2));
 // 5.00 1.00
 ```
+
+You can also pass `Money` objects to `subtract` and `add`:
+
+```javascript
+const startBalance = new Money(1000, 'USD');
+const salary = new Money(2000, 'USD');
+const newBalance = startBalance.add(salary);
+```
+
+If you try to add money from different currencies, and error
+will be thrown:
+
+```javascript
+new Money(1000, 'USD').add( new Money( 50000, 'YEN' ));
+// IncompatibleCurencyError
+```
+
+### TODO
+
+1. Divide
+2. Multiply
+3. Compare
+4. Allocate
+5. toSource (to get the underlying bigint value)
+6. fromSource (to create a new Money object from a high-precision bigint value)
+
 
 Why is this library needed?
 ---------------------------
