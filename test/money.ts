@@ -28,6 +28,14 @@ describe('Money class', () => {
 
     });
 
+    it('should return 1.[0 * 15] when asked for 15 decimals', () => {
+
+      const m = new Money(1, 'USD');
+      expect(m.toFixed(15)).to.equal('1.' + ('0'.repeat(15)));
+
+    });
+
+
   });
 
   describe('add', () => {
