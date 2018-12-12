@@ -29,8 +29,8 @@ export class Money {
     const fractionalPart = result.substr(Number(-PRECISION));
     let wholePart = result.substr(0, result.length - fractionalPart.length);
 
-    if (wholePart === '') wholePart = '0';
-    if (wholePart === '-') wholePart = '-0';
+    if (wholePart === '') { wholePart = '0'; }
+    if (wholePart === '-') { wholePart = '-0'; }
 
     if (precision === 0) {
       return wholePart;
@@ -92,7 +92,7 @@ function moneyValueToBigInt(input: Money | string | number | bigint): bigint {
         throw new TypeError('Input string must follow the pattern (-)##.## or -##');
       }
 
-      let output:bigint;
+      let output: bigint;
       // The whole part
       if (parts[2] === undefined) {
         // For numbers like ".04" this part will be undefined.
@@ -102,14 +102,14 @@ function moneyValueToBigInt(input: Money | string | number | bigint): bigint {
       }
 
       // The fractional part
-      const precisionDifference:bigint = (PRECISION - BigInt(parts[4].length));
+      const precisionDifference: bigint = (PRECISION - BigInt(parts[4].length));
 
       // The length of the fraction is less than precision.
       // This should add or remove 0's on demand.
       output += BigInt(parts[4]) * 10n ** precisionDifference;
 
       // negative ?
-      if (parts[1]==='-') {
+      if (parts[1] === '-') {
         output *= -1n;
       }
       return output;
