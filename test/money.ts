@@ -1,5 +1,5 @@
 import { Money, UnsafeIntegerError, IncompatibleCurrencyError } from '../src';
-const { expect } = require('chai');
+import { expect } from 'chai';
 
 describe('Money class', () => {
 
@@ -14,10 +14,11 @@ describe('Money class', () => {
   it('should error when instantiating with inprecise numbers', () => {
 
     expect( () => {
-      new Money(1.1, 'YEN');
+      new Money(1.1, 'yen');
     }).to.throw(UnsafeIntegerError);
 
   });
+
 
   describe('toFixed', () => {
 
@@ -35,6 +36,51 @@ describe('Money class', () => {
 
     });
 
+    it('should round to 4 when calling toFixed on 3.5 with 0 precision', () => {
+
+      const m = new Money('3.5', 'USD');
+      expect(m.toFixed(0)).to.equal('4');
+
+    });
+
+    it('should round to -4 when calling toFixed on -3.5 with 0 precision', () => {
+
+      const m = new Money('-3.5', 'USD');
+      expect(m.toFixed(0)).to.equal('-4');
+
+    });
+
+    it('should round to 2 when calling toFixed on 2.5 with 0 precision', () => {
+
+      const m = new Money('2.5', 'USD');
+      expect(m.toFixed(0)).to.equal('2');
+
+    });
+
+    it('should round to -2 when calling toFixed on -2.5 with 0 precision', () => {
+
+      const m = new Money('-2.5', 'USD');
+      expect(m.toFixed(0)).to.equal('-2');
+
+    });
+
+  });
+
+  it('should round to even beyond the 12-digit precision', () => {
+
+    const m = new Money('1.1112223330005', 'USD');
+    expect(m).to.be.an.instanceof(Money);
+    expect(m.currency).to.equal('USD');
+    expect(m.toFixed(13)).to.equal('1.1112223330000');
+
+  });
+
+  it('should round to even beyond the 12-digit precision (2)', () => {
+
+    const m = new Money('1.1112223330015', 'USD');
+    expect(m).to.be.an.instanceof(Money);
+    expect(m.currency).to.equal('USD');
+    expect(m.toFixed(13)).to.equal('1.1112223330020');
 
   });
 

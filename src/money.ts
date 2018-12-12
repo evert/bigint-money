@@ -1,13 +1,5 @@
-import { IncompatibleCurrencyError, UnsafeIntegerError } from './errors';
-
-// How many digits we support
-const PRECISION_I = 12;
-
-// bigint version. We keep both so there's less conversions.
-const PRECISION = BigInt(PRECISION_I);
-
-// Multiplication factor for internal values
-const PRECISION_M = 10n ** PRECISION;
+import { IncompatibleCurrencyError } from './errors';
+import { moneyValueToBigInt, nearestEvenDivide, PRECISION, PRECISION_M } from './util';
 
 export class Money {
 
@@ -17,12 +9,38 @@ export class Money {
   constructor(value: number | bigint | string, currency: string) {
 
     this.currency = currency;
-
     this.value = moneyValueToBigInt(value);
 
   }
 
+  /**
+   * Return a string representation of the money value.
+   *
+   * Precision is a number of decimals that was requested. The decimals are
+   * always returned, e.g.: new Money(1, 'USD').toFixed(2) returns '1.00'.
+   *
+   * This function rounds to even, a.k.a. it uses bankers rounding.
+   */
   toFixed(precision: number): string {
+
+    if (precision > PRECISION) {
+
+      // The user asked for more precision than was available, we just gotta
+      // pad with 0's.
+      const wholePart: bigint = this.value / PRECISION_M;
+      const fracPart: bigint = this.value % PRECISION_M;
+
+      const fracStr = fracPart.toString();
+
+      // Add 0's
+      return wholePart.toString() + '.' + fracStr + ('0'.repeat(precision - fracStr.length));
+
+    } else if (precision === 0) {
+
+      // No decimals were requested.
+      return nearestEvenDivide(this.value, PRECISION_M).toString();
+
+    }
 
     const result = this.value.toString();
 
@@ -73,58 +91,3 @@ export class Money {
 
 }
 
-/**
- * This helper function takes a string, number or anything that can
- * be used in the constructor of a Money object, and returns a bigint
- * with adjusted precision.
- */
-function moneyValueToBigInt(input: Money | string | number | bigint): bigint {
-
-  if (input instanceof Money) {
-    return input.value;
-  }
-
-  switch (typeof input) {
-    case 'string' :
-      const parts = input.match(/^(-)?([0-9]*)?(\.([0-9]*))?$/);
-
-      if (!parts) {
-        throw new TypeError('Input string must follow the pattern (-)##.## or -##');
-      }
-
-      let output: bigint;
-      // The whole part
-      if (parts[2] === undefined) {
-        // For numbers like ".04" this part will be undefined.
-        output = 0n;
-      } else {
-        output = BigInt(parts[2]) * PRECISION_M;
-      }
-
-      // The fractional part
-      const precisionDifference: bigint = (PRECISION - BigInt(parts[4].length));
-
-      // The length of the fraction is less than precision.
-      // This should add or remove 0's on demand.
-      output += BigInt(parts[4]) * 10n ** precisionDifference;
-
-      // negative ?
-      if (parts[1] === '-') {
-        output *= -1n;
-      }
-      return output;
-    case 'bigint':
-      return input * PRECISION_M;
-      break;
-    case 'number' :
-      if (!Number.isSafeInteger(input)) {
-        throw new UnsafeIntegerError('The number ' + input + ' is not a "safe" integer. It must be converted before passing it');
-      }
-      return BigInt(input) * PRECISION_M;
-      break;
-    default :
-      throw new TypeError('value must be a safe integer, bigint or string');
-
-  }
-
-}
