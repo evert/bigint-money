@@ -22,47 +22,33 @@ describe('Money class', () => {
 
   describe('toFixed', () => {
 
-    it('should return 1.000 when asked for 3 decimals', () => {
+    const tests = [
+      [1, 3, '1.000'],
 
-      const m = new Money(1, 'USD');
-      expect(m.toFixed(3)).to.equal('1.000');
+      ['3.5', 0, '4'],
+      ['-3.5', 0, '-4'],
+      ['2.5', 0, '2'],
+      ['-2.5', 0, '-2'],
 
-    });
+      ['.35',  1, '0.4'],
+      ['-.35', 1, '-0.4'],
+      ['.25',  1, '0.2'],
+      ['-.25', 1, '-0.2'],
 
-    it('should return 1.[0 * 15] when asked for 15 decimals', () => {
 
-      const m = new Money(1, 'USD');
-      expect(m.toFixed(15)).to.equal('1.' + ('0'.repeat(15)));
+      [1,       15, '1.' + ('0'.repeat(15))],
+      ['1.555', 15, '1.555' + ('0'.repeat(12))],
+      ['1.00555', 15, '1.00555' + ('0'.repeat(10))],
+    ];
 
-    });
+    for(const test of tests) {
+      it(`should return ${test[2]} when calling toFixed on ${test[0]} with ${test[1]} precision`, () => {
 
-    it('should round to 4 when calling toFixed on 3.5 with 0 precision', () => {
+        const m = new Money(test[0], 'USD');
+        expect(m.toFixed(<number>test[1])).to.equal(test[2]);
 
-      const m = new Money('3.5', 'USD');
-      expect(m.toFixed(0)).to.equal('4');
-
-    });
-
-    it('should round to -4 when calling toFixed on -3.5 with 0 precision', () => {
-
-      const m = new Money('-3.5', 'USD');
-      expect(m.toFixed(0)).to.equal('-4');
-
-    });
-
-    it('should round to 2 when calling toFixed on 2.5 with 0 precision', () => {
-
-      const m = new Money('2.5', 'USD');
-      expect(m.toFixed(0)).to.equal('2');
-
-    });
-
-    it('should round to -2 when calling toFixed on -2.5 with 0 precision', () => {
-
-      const m = new Money('-2.5', 'USD');
-      expect(m.toFixed(0)).to.equal('-2');
-
-    });
+      });
+    }
 
   });
 

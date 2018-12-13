@@ -23,43 +23,42 @@ export class Money {
    */
   toFixed(precision: number): string {
 
-    if (precision > PRECISION) {
-
-      // The user asked for more precision than was available, we just gotta
-      // pad with 0's.
-      const wholePart: bigint = this.value / PRECISION_M;
-      const fracPart: bigint = this.value % PRECISION_M;
-
-      const fracStr = fracPart.toString();
-
-      // Add 0's
-      return wholePart.toString() + '.' + fracStr + ('0'.repeat(precision - fracStr.length));
-
-    } else if (precision === 0) {
-
+    if (precision === 0) {
       // No decimals were requested.
       return nearestEvenDivide(this.value, PRECISION_M).toString();
+    }
+
+    if (precision < PRECISION) {
+
+      // Divide so so the big internal value rounds to the desired
+      // precision.
+      const intermediate = nearestEvenDivide(this.value, 10n ** (PRECISION - BigInt(precision))).toString();
+
+      // Now we just have to put the peroid in the right spot.
+      let wholePart = intermediate.slice(0, intermediate.length - precision);
+      const fracPart = intermediate.slice(intermediate.length - precision);
+
+      // wholePart may be empty
+      if (wholePart === '' || wholePart === '-') {
+        wholePart += '0';
+      }
+
+      console.log('%s-%s-%s', intermediate, wholePart, fracPart);
+
+      return wholePart + '.' + fracPart;
 
     }
 
-    const result = this.value.toString();
 
-    const fractionalPart = result.substr(Number(-PRECISION));
-    let wholePart = result.substr(0, result.length - fractionalPart.length);
+    // The user asked for more precision than was available, we just gotta
+    // pad with 0's.
+    const wholePart: bigint = this.value / PRECISION_M;
+    const fracPart: bigint = this.value % PRECISION_M;
 
-    if (wholePart === '') { wholePart = '0'; }
-    if (wholePart === '-') { wholePart = '-0'; }
+    const fracStr = fracPart.toString();
 
-    if (precision === 0) {
-      return wholePart;
-    }
-
-    if (precision > fractionalPart.length) {
-      return wholePart + '.' + fractionalPart + ('0'.repeat(precision - fractionalPart.length));
-    }
-
-    // Caller wants less precision than we have. Strip digits.
-    return wholePart + '.' + fractionalPart.substr(0, precision);
+    // Add 0's
+    return wholePart.toString() + '.' + fracStr + ('0'.repeat(precision - fracStr.length));
 
   }
 
