@@ -79,6 +79,43 @@ export function moneyValueToBigInt(input: Money | string | number | bigint): big
 }
 
 /**
+ * This function takes a bigint that was multiplied by PRECISON_M, and returns
+ * a human readable string value with a specified precision.
+ *
+ * Precision is the number of decimals that are returned.
+ */
+export function bigintToFixed(value: bigint, precision: number) {
+
+  if (precision === 0) {
+    // No decimals were requested.
+    return nearestEvenDivide(value, PRECISION_M).toString();
+  }
+
+  const wholePart = (value / PRECISION_M);
+  const negative = value < 0;
+  let remainder = (value % PRECISION_M);
+
+  if (precision > PRECISION) {
+    // More precision was requested than we have, so we multiply
+    // to add more 0's
+    remainder *= 10n ** (BigInt(precision) - PRECISION);
+  } else {
+    // Less precision was requested, so we round
+    remainder = nearestEvenDivide(remainder, 10n ** (PRECISION - BigInt(precision)));
+  }
+
+  if (remainder < 0) { remainder *= -1n; }
+  const remainderStr = remainder.toString().padStart(precision, '0');
+
+  let wholePartStr = wholePart.toString();
+  if (wholePartStr === '0' && negative) {
+    wholePartStr = '-0';
+  }
+
+  return wholePartStr + '.' + remainderStr;
+}
+
+/**
  * This function takes 2 bigints and divides them.
  *
  * By default ecmascript will round to 0. For example,
