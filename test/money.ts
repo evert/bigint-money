@@ -301,4 +301,27 @@ describe('Money class', () => {
 
   });
 
+  describe('allocate', () => {
+
+    const cases:any = [
+      ['1', 3, 2, ['0.34', '0.33', '0.33']],
+      ['-10', 7, 2, ['-1.43', '-1.43', '-1.43', '-1.43', '-1.43', '-1.43', '-1.42']],
+    ];
+
+    for(const cas of cases) {
+      it(`splitting $${cas[0]} between ${cas[1]} people should result in ${(cas[3]).join(', ')}`, () => {
+
+        const x = new Money(cas[0], 'CAD');
+        const result = x.allocate(cas[1], cas[2]);
+
+        expect(result.map( item => item.toFixed(cas[2]))).to.eql(cas[3]);
+
+        // Double-check. Numbers must exactly add up to the source value
+        expect(result.reduce( (acc, cur) => acc + cur.value, 0n)).to.equal(x.value);
+
+      });
+
+    }
+  });
+
 });
