@@ -4,7 +4,7 @@ Changelog
 0.3.0 (2018-12-??)
 ------------------
 
-* Support for `divide()`.
+* Support for `divide()`, `multiply()`.
 * Fixed parsing string numbers without a fractional part.
 
 
