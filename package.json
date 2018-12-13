@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/evert/bigint-money#readme",
   "devDependencies": {
+    "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.12.12",
     "chai": "^4.2.0",

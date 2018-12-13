@@ -1,5 +1,5 @@
 import { Money, UnsafeIntegerError, IncompatibleCurrencyError } from '../src';
-const { expect } = require('chai');
+import { expect } from 'chai';
 
 describe('Money class', () => {
 
@@ -14,27 +14,64 @@ describe('Money class', () => {
   it('should error when instantiating with inprecise numbers', () => {
 
     expect( () => {
-      new Money(1.1, 'YEN');
+      new Money(1.1, 'yen');
     }).to.throw(UnsafeIntegerError);
 
   });
 
+
   describe('toFixed', () => {
 
-    it('should return 1.000 when asked for 3 decimals', () => {
+    const tests = [
+      [1, 3, '1.000'],
 
-      const m = new Money(1, 'USD');
-      expect(m.toFixed(3)).to.equal('1.000');
+      ['3.5', 0, '4'],
+      ['-3.5', 0, '-4'],
+      ['2.5', 0, '2'],
+      ['-2.5', 0, '-2'],
+
+      ['.35',  1, '0.4'],
+      ['-.35', 1, '-0.4'],
+      ['.25',  1, '0.2'],
+      ['-.25', 1, '-0.2'],
+
+
+      [1,       15, '1.' + ('0'.repeat(15))],
+      ['1.555', 15, '1.555' + ('0'.repeat(12))],
+      ['1.00555', 15, '1.00555' + ('0'.repeat(10))],
+
+    ];
+
+    for(const test of tests) {
+      it(`should return ${test[2]} when calling toFixed on ${test[0]} with ${test[1]} precision`, () => {
+
+        const m = new Money(test[0], 'USD');
+        expect(m.toFixed(<number>test[1])).to.equal(test[2]);
+
+      });
+    }
+
+  });
+
+  describe('Numbers with more precision than 12 digits', () => {
+
+    it('should round to even beyond the 12-digit precision', () => {
+
+      const m = new Money('1.1112223330005', 'USD');
+      expect(m).to.be.an.instanceof(Money);
+      expect(m.currency).to.equal('USD');
+      expect(m.toFixed(13)).to.equal('1.1112223330000');
 
     });
 
-    it('should return 1.[0 * 15] when asked for 15 decimals', () => {
+    it('should round to even beyond the 12-digit precision (2)', () => {
 
-      const m = new Money(1, 'USD');
-      expect(m.toFixed(15)).to.equal('1.' + ('0'.repeat(15)));
+      const m = new Money('1.1112223330015', 'USD');
+      expect(m).to.be.an.instanceof(Money);
+      expect(m.currency).to.equal('USD');
+      expect(m.toFixed(13)).to.equal('1.1112223330020');
 
     });
-
 
   });
 
@@ -73,9 +110,11 @@ describe('Money class', () => {
       ['0.1', '0.2', '0.30'],
       ['0.3', '-0.2', '0.10'],
       [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, '18014398509481982.00'],
-      // If these were floats, we'd expect this to round to 17.96. Without
-      // rounding errors, this should go to 17.95
-      ['17.954', '.001', '17.95'],
+
+      ['17.954', '.001', '17.96'],
+
+      ['0.002', '0.003', '0.00'],
+      ['0.012', '0.003', '0.02'],
     ];
 
     for(const cas of cases) {
