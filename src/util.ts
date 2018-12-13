@@ -24,34 +24,41 @@ export function moneyValueToBigInt(input: Money | string | number | bigint): big
 
   switch (typeof input) {
     case 'string' :
+
       const parts = input.match(/^(-)?([0-9]*)?(\.([0-9]*))?$/);
 
       if (!parts) {
         throw new TypeError('Input string must follow the pattern (-)##.## or -##');
       }
 
+      const signPart: '-'|undefined = <undefined|'-'> parts[1]; // Positive or negative
+      const wholePart: string|undefined = parts[2]; // Whole numbers.
+      const fracPart: string|undefined = parts[4];
+
       let output: bigint;
       // The whole part
-      if (parts[2] === undefined) {
+      if (wholePart === undefined) {
         // For numbers like ".04" this part will be undefined.
         output = 0n;
       } else {
-        output = BigInt(parts[2]) * PRECISION_M;
+        output = BigInt(wholePart) * PRECISION_M;
       }
 
-      // The fractional part
-      const precisionDifference: bigint = (PRECISION - BigInt(parts[4].length));
+      if (fracPart !== undefined) {
+        // The fractional part
+        const precisionDifference: bigint = (PRECISION - BigInt(fracPart.length));
 
-      if (precisionDifference >= 0) {
-        // Add 0's
-        output += BigInt(parts[4]) * 10n ** precisionDifference;
-      } else {
-        // Remove 0's
-        output += nearestEvenDivide(BigInt(parts[4]), 10n ** (-precisionDifference));
+        if (precisionDifference >= 0) {
+          // Add 0's
+          output += BigInt(fracPart) * 10n ** precisionDifference;
+        } else {
+          // Remove 0's
+          output += nearestEvenDivide(BigInt(fracPart), 10n ** (-precisionDifference));
+        }
       }
 
       // negative ?
-      if (parts[1] === '-') {
+      if (signPart === '-') {
         output *= -1n;
       }
       return output;
@@ -82,29 +89,7 @@ export function moneyValueToBigInt(input: Money | string | number | bigint): big
  */
 export function nearestEvenDivide(a: bigint, b: bigint) {
 
-  /*
-  let result: bigint = a / b;
-  // if modulo is over half or equal to divisor
-  if ((a % b) * 2n >= b) {
-     // add 1 if result is odd
-     if (result % 2n === 1n) { result++; }
-  } else {
-     // remove 1 if result is even
-     if (result % 2n !== 1n) { result--; }
-  }
-  return result;
-
-   */
-
-  /*
-  let result = a/b;
-  // if modulo is over half or equal to divisor
-  if ((a % b) * 2n >= b) {
-     // If result was odd, go to nearest even
-     if (result % 2n === 1n) {
-        result += (result > 0) ? 1n : -1n;
-     }
-  }*/
+  // Get absolute versions. We'll deal with the negatives later.
   const aAbs = a > 0 ? a : -a;
   const bAbs = b > 0 ? b : -b;
 

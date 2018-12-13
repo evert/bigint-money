@@ -186,4 +186,29 @@ describe('Money class', () => {
 
   });
 
+  describe('divide', () => {
+
+    const cases = [
+      ['1', '3', '0.33'],
+      // Round half even (down)
+      ['3.015', '3', '1.00'],
+      // Round half to even (up)
+      ['3.045', '3', '1.02'],
+
+      ['0.3', '3', '0.10'],
+    ];
+
+    for (const cas of cases) {
+
+      it(`${cas[0]} / ${cas[1]} = ${cas[2]}`, () => {
+
+        const x = new Money(cas[0], 'ETH');
+        expect(x.divide(cas[1]).toFixed(2)).to.equal(cas[2]);
+
+      });
+
+    }
+
+  });
+
 });

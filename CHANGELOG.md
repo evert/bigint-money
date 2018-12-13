@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.3.0 (2018-12-??)
+------------------
+
+* Support for `divide()`.
+* Fixed parsing string numbers without a fractional part.
+
+
 0.2.0 (2018-12-12)
 ------------------
 
