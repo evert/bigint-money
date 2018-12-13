@@ -1,5 +1,10 @@
 import { IncompatibleCurrencyError } from './errors';
-import { moneyValueToBigInt, nearestEvenDivide, PRECISION, PRECISION_M } from './util';
+import {
+  bigintToFixed,
+  moneyValueToBigInt,
+  nearestEvenDivide,
+  PRECISION_M
+} from './util';
 
 export class Money {
 
@@ -23,33 +28,7 @@ export class Money {
    */
   toFixed(precision: number): string {
 
-    if (precision === 0) {
-      // No decimals were requested.
-      return nearestEvenDivide(this.value, PRECISION_M).toString();
-    }
-
-    const wholePart = (this.value / PRECISION_M);
-    const negative = this.value < 0;
-    let remainder = (this.value % PRECISION_M);
-
-    if (precision > PRECISION) {
-      // More precision was requested than we have, so we multiply
-      // to add more 0's
-      remainder *= 10n ** (BigInt(precision) - PRECISION);
-    } else {
-      // Less precision was requested, so we round
-      remainder = nearestEvenDivide(remainder, 10n ** (PRECISION - BigInt(precision)));
-    }
-
-    if (remainder < 0) { remainder *= -1n; }
-    const remainderStr = remainder.toString().padStart(precision, '0');
-
-    let wholePartStr = wholePart.toString();
-    if (wholePartStr === '0' && negative) {
-      wholePartStr = '-0';
-    }
-
-    return wholePartStr + '.' + remainderStr;
+    return bigintToFixed(this.value, precision);
 
   }
 
@@ -115,6 +94,25 @@ export class Money {
     result.value = nearestEvenDivide(resultBig, PRECISION_M);
     return result;
 
+
+  }
+
+  /**
+   * Compares this Money object with another value.
+   *
+   * If the values are equal, 0 is returned.
+   * If this object is considered to be lower, -1 is returned.
+   * If this object is considered to be higher, 1 is returned.
+   */
+  compare(val: number | string | Money): -1 | 0 | 1 {
+
+    if (val instanceof Money && val.currency !== this.currency) {
+      throw new IncompatibleCurrencyError('You cannot compare different currencies.');
+    }
+
+    const bigVal = moneyValueToBigInt(val);
+    if (bigVal === this.value) { return 0; }
+    return this.value < bigVal ? -1 : 1;
 
   }
 

@@ -255,4 +255,50 @@ describe('Money class', () => {
 
   });
 
+  describe('compare', () => {
+
+    const cases = [
+      ['1', '2', -1],
+      ['-10', '-20', 1],
+      ['1', 1, 0],
+      ['-100', '100', -1],
+      ['-0', 0, 0],
+      ['1.00000001', '1.00000002', -1],
+      ['1.00000003', '1.00000002', 1],
+    ];
+
+    for (const cas of cases) {
+
+      let op;
+      switch(cas[2]) {
+        case -1:
+          op = '<';
+          break;
+        case 0 :
+          op = '===';
+          break;
+        case 1:
+          op = '>';
+          break;
+      }
+      it(`${cas[0]} ${op} ${cas[1]} === true`, () => {
+
+        const x = new Money(cas[0], 'AUD');
+        expect(x.compare(cas[1])).to.equal(cas[2]);
+
+      });
+
+    }
+
+    it('should fail when using incompatible currencies', () => {
+
+      const x = new Money(1, 'AUD');
+      const y = new Money(2, 'NZD');
+      expect(() => x.compare(y)).to.throw(IncompatibleCurrencyError);
+
+    });
+
+
+  });
+
 });
