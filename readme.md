@@ -15,8 +15,9 @@ This library can be used for doing math with Money. Key features:
 `bigint` is really new. As of today, this library only works in
 up-to-date versions of Chrome and Node.js. See [caniuse.com][5].
 
-My advice is to NOT use this with browsers until there's other browsers
-than Chrome to support this. It works great with Node.js 10.4 and up though.
+My advice is to NOT use this with browsers until there's other
+browsers than Chrome to support this. It works great with Node.js
+10.4 and up though.
 
 Installation
 ------------
