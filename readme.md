@@ -89,16 +89,20 @@ new Money(1000, 'USD').add( new Money( 50000, 'YEN' ));
 Other availabe functions:
 
 ```javascript
-const result = new Money(10).divide(3); // division
+// Division
+const result = new Money(10).divide(3);
+
+// Multiplication
+const result = new Money('2000').multiply('1.25');
 ```
 
 ### TODO
 
-1. Multiply
-2. Compare
-3. Allocate
-4. toSource (to get the underlying bigint value)
-5. fromSource (to create a new Money object from a high-precision bigint value)
+1. Compare
+2. Allocate
+3. toSource (to get the underlying bigint value)
+4. fromSource (to create a new Money object from a high-precision
+   bigint value)
 
 
 Why is this library needed?

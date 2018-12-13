@@ -101,5 +101,21 @@ export class Money {
 
   }
 
-}
+  /**
+   * Multiply
+   */
+  multiply(val: number | string): Money {
 
+    const valBig = moneyValueToBigInt(val);
+
+    // Converting the dividor.
+    const resultBig = valBig * this.value;
+
+    const result = new Money(0, this.currency);
+    result.value = nearestEvenDivide(resultBig, PRECISION_M);
+    return result;
+
+
+  }
+
+}
