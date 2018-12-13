@@ -78,7 +78,7 @@ const salary = new Money(2000, 'USD');
 const newBalance = startBalance.add(salary);
 ```
 
-If you try to add money from different currencies, and error
+If you try to add money from different currencies, an error
 will be thrown:
 
 ```javascript
@@ -86,14 +86,19 @@ new Money(1000, 'USD').add( new Money( 50000, 'YEN' ));
 // IncompatibleCurencyError
 ```
 
+Other availabe functions:
+
+```javascript
+const result = new Money(10).divide(3); // division
+```
+
 ### TODO
 
-1. Divide
-2. Multiply
-3. Compare
-4. Allocate
-5. toSource (to get the underlying bigint value)
-6. fromSource (to create a new Money object from a high-precision bigint value)
+1. Multiply
+2. Compare
+3. Allocate
+4. toSource (to get the underlying bigint value)
+5. fromSource (to create a new Money object from a high-precision bigint value)
 
 
 Why is this library needed?

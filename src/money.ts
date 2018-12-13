@@ -51,22 +51,9 @@ export class Money {
 
     return wholePartStr + '.' + remainderStr;
 
-    /*
-
-    // The user asked for more precision than was available, we just gotta
-    // pad with 0's.
-    const wholePart: bigint = this.value / PRECISION_M;
-    const fracPart: bigint = this.value % PRECISION_M;
-
-    const fracStr = fracPart.toString();
-
-    // Add 0's
-    return wholePart.toString() + '.' + fracStr + ('0'.repeat(precision - fracStr.length));
-    */
-
   }
 
-  add(val: Money | number): Money {
+  add(val: Money | number | string): Money {
 
     if (val instanceof Money && val.currency !== this.currency) {
       throw new IncompatibleCurrencyError('You cannot add Money from different currencies. Convert first');
@@ -79,7 +66,7 @@ export class Money {
 
   }
 
-  subtract(val: Money | number): Money {
+  subtract(val: Money | number | string): Money {
 
     if (val instanceof Money && val.currency !== this.currency) {
       throw new IncompatibleCurrencyError('You cannot subtract Money from different currencies. Convert first');
@@ -89,6 +76,28 @@ export class Money {
     const r = new Money(0, this.currency);
     r.value = this.value - subVal;
     return r;
+
+  }
+
+  /**
+   * Divide the current number with the specified number.
+   *
+   * This function returns a new Money object with the result.
+   */
+  divide(val: number | string ): Money {
+
+    // Even though val1 was already in 'bigint' format, we run this
+    // again as otherwise we will lose precision.
+    //
+    // This means for an original of $1 this would now be $1 * 10**24.
+    const val1 = moneyValueToBigInt(this.value);
+
+    // Converting the dividor.
+    const val2 = moneyValueToBigInt(val);
+
+    const result = new Money(0, this.currency);
+    result.value = nearestEvenDivide(val1, val2);
+    return result;
 
   }
 
