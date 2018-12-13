@@ -56,6 +56,8 @@ const foo = new Money('5', 'USD');
 console.log(foo.toFixed(2)); // 5.00
 ```
 
+### Arithmatic
+
 You can use `.add()` and `.subtract()` on it:
 
 ```javascript
@@ -87,7 +89,7 @@ new Money(1000, 'USD').add( new Money( 50000, 'YEN' ));
 // IncompatibleCurencyError
 ```
 
-Other availabe functions:
+Division and multiplication:
 
 ```javascript
 // Division
@@ -97,12 +99,44 @@ const result = new Money(10).divide(3);
 const result = new Money('2000').multiply('1.25');
 ```
 
+### Comparing objects
+
+Right now the Money object has a single function for comparison.
+
+```javascript
+const money1 = new Money('1.00', 'EUR');
+
+money.compare(2); // Returns -1
+money.compare(1); // Returns 0
+money.compare(0); // Returns 1
+
+money.compare('0.01'); // returns -1
+money.compare(new Money('1.000005', 'EUR')); // returns 1
+
+money.compare(new Money('1', 'CAD')); // throws IncompatibleCurrencyError
+```
+
+The idea is that if the object is smaller than the passed one, `-1` returned.
+`0` is returned if they're equal and `1` is returned if the passed value is
+higher.
+
+
+This makes it easy to sort:
+
+```javascript
+const values = [
+  new Money('1', 'USD'),
+  new Money('2', 'USD')
+];
+
+values.sort( (a, b) => a.compare(b) );
+```
+
 ### TODO
 
-1. Compare
-2. Allocate
-3. toSource (to get the underlying bigint value)
-4. fromSource (to create a new Money object from a high-precision
+1. Allocate
+2. toSource (to get the underlying bigint value)
+3. fromSource (to create a new Money object from a high-precision
    bigint value)
 
 
