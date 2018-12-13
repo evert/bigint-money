@@ -1,21 +1,27 @@
 bigint-money
 ============
 
-This library can be used for doing math with Money. This library
-uses the Ecmascript [bigint][2] type. It's written in Typescript,
-but can be used by Javascript as well.
+This library can be used for doing math with Money. Key features:
+
+* This uses the the Ecmascript [bigint][2] type.
+* Written in Typescript.
+* More-or-less follows [Martin Fowler's Money Type][3] from
+ ["Patterns of Enterprise Application Architecture"][4].
+* Faster than Money packages that use non-native bigdecimal libraries.
+* All rounding is done via the ["Bankers Rounding"][6] (a.k.a. "round
+  half to even").
+* Under the hood uses 12 decimals for any calculations.
 
 `bigint` is really new. As of today, this library only works in
 up-to-date versions of Chrome and Node.js. See [caniuse.com][5].
 
-This library more-or-less follows [Martin Fowler's Money Type][3] from
-["Patterns of Enterprise Application Architecture"][4].
+My advice is to NOT use this with browsers until there's other browsers
+than Chrome to support this. It works great with Node.js 10.4 and up though.
 
 Installation
 ------------
 
     npm i bigint-money
-
 
 Usage
 -----
@@ -151,25 +157,10 @@ but a `Bigint`.
 
 There's a lot more info on the [Google Blog][2].
 
-### This library
-
-There are a lot of Money libraries around. Unlike the libraries that
-exist today, this Money library has these features:
-
-1. It use Javascript's native bigint. Which makes it fast.
-2. It internally uses 12 digits for precision.
-3. Rounding works the way you expect.
-4. It more-or-less follows [Martin Fowler's Money Type][3] from
-   ["Patterns of Enterprise Application Architecture"][4].
-
-Do not use this library if you need to target older browsers. Modern versions
-of Node.js have support for this, as does chrome but Firefox does not (yet).
-
-See [caniuse.com][5] to see an up to date list of browser support.
-
 
 [1]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
 [2]: https://developers.google.com/web/updates/2018/05/bigint
 [3]: https://martinfowler.com/eaaCatalog/money.html
 [4]: https://amzn.to/2EezezD "Note: affiliate link"
 [5]: https://caniuse.com/#search=bigint
+[6]: http://wiki.c2.com/?BankersRounding

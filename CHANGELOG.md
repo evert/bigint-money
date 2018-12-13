@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.2.0 (2018-12-12)
+------------------
+
+* The rounding method everywhere is now 'Bankers rounding', also known as
+  'round half to even'. This is a more acceptable rounding for finanical
+  purposes.
+* Moved some utilities into the `src/util.ts` function.
+* Fixed bugs in `toFixed()`.
+* Higher test coverage.
+
+
 0.1.1 (2018-12-11)
 ------------------
 
