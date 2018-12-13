@@ -28,27 +28,30 @@ export class Money {
       return nearestEvenDivide(this.value, PRECISION_M).toString();
     }
 
-    if (precision < PRECISION) {
+    const wholePart = (this.value / PRECISION_M);
+    const negative = this.value < 0;
+    let remainder = (this.value % PRECISION_M);
 
-      // Divide so so the big internal value rounds to the desired
-      // precision.
-      const intermediate = nearestEvenDivide(this.value, 10n ** (PRECISION - BigInt(precision))).toString();
-
-      // Now we just have to put the peroid in the right spot.
-      let wholePart = intermediate.slice(0, intermediate.length - precision);
-      const fracPart = intermediate.slice(intermediate.length - precision);
-
-      // wholePart may be empty
-      if (wholePart === '' || wholePart === '-') {
-        wholePart += '0';
-      }
-
-      console.log('%s-%s-%s', intermediate, wholePart, fracPart);
-
-      return wholePart + '.' + fracPart;
-
+    if (precision > PRECISION) {
+      // More precision was requested than we have, so we multiply
+      // to add more 0's
+      remainder *= 10n ** (BigInt(precision) - PRECISION);
+    } else {
+      // Less precision was requested, so we round
+      remainder = nearestEvenDivide(remainder, 10n ** (PRECISION - BigInt(precision)));
     }
 
+    if (remainder < 0) { remainder *= -1n; }
+    const remainderStr = remainder.toString().padStart(precision, '0');
+
+    let wholePartStr = wholePart.toString();
+    if (wholePartStr === '0' && negative) {
+      wholePartStr = '-0';
+    }
+
+    return wholePartStr + '.' + remainderStr;
+
+    /*
 
     // The user asked for more precision than was available, we just gotta
     // pad with 0's.
@@ -59,6 +62,7 @@ export class Money {
 
     // Add 0's
     return wholePart.toString() + '.' + fracStr + ('0'.repeat(precision - fracStr.length));
+    */
 
   }
 

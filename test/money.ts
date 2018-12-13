@@ -39,6 +39,7 @@ describe('Money class', () => {
       [1,       15, '1.' + ('0'.repeat(15))],
       ['1.555', 15, '1.555' + ('0'.repeat(12))],
       ['1.00555', 15, '1.00555' + ('0'.repeat(10))],
+
     ];
 
     for(const test of tests) {
@@ -52,21 +53,25 @@ describe('Money class', () => {
 
   });
 
-  it('should round to even beyond the 12-digit precision', () => {
+  describe('Numbers with more precision than 12 digits', () => {
 
-    const m = new Money('1.1112223330005', 'USD');
-    expect(m).to.be.an.instanceof(Money);
-    expect(m.currency).to.equal('USD');
-    expect(m.toFixed(13)).to.equal('1.1112223330000');
+    it('should round to even beyond the 12-digit precision', () => {
 
-  });
+      const m = new Money('1.1112223330005', 'USD');
+      expect(m).to.be.an.instanceof(Money);
+      expect(m.currency).to.equal('USD');
+      expect(m.toFixed(13)).to.equal('1.1112223330000');
 
-  it('should round to even beyond the 12-digit precision (2)', () => {
+    });
 
-    const m = new Money('1.1112223330015', 'USD');
-    expect(m).to.be.an.instanceof(Money);
-    expect(m.currency).to.equal('USD');
-    expect(m.toFixed(13)).to.equal('1.1112223330020');
+    it('should round to even beyond the 12-digit precision (2)', () => {
+
+      const m = new Money('1.1112223330015', 'USD');
+      expect(m).to.be.an.instanceof(Money);
+      expect(m.currency).to.equal('USD');
+      expect(m.toFixed(13)).to.equal('1.1112223330020');
+
+    });
 
   });
 
@@ -105,9 +110,11 @@ describe('Money class', () => {
       ['0.1', '0.2', '0.30'],
       ['0.3', '-0.2', '0.10'],
       [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, '18014398509481982.00'],
-      // If these were floats, we'd expect this to round to 17.96. Without
-      // rounding errors, this should go to 17.95
-      ['17.954', '.001', '17.95'],
+
+      ['17.954', '.001', '17.96'],
+
+      ['0.002', '0.003', '0.00'],
+      ['0.012', '0.003', '0.02'],
     ];
 
     for(const cas of cases) {
