@@ -19,6 +19,28 @@ My advice is to NOT use this with browsers until there's other
 browsers than Chrome to support this. It works great with Node.js
 10.4 and up though.
 
+Benchmark
+---------
+
+Most 'money' libraries on NPM only use 2 digits for precision, or use 
+Javacript's "number" and will quickly overflow.
+
+The only comparible library I found was [big-money][7]. It's probably
+the best alternative if your Javascript environment doesn't have support
+for `bigint` yet.
+
+My simple benchmark calculates a ledger with 1 million entries.
+
+```
+        bigint-money  |   big-money
+ledger       816 ms   |   43.201 ms
+%            100 %    |     5294 %
+```
+
+If you want to run it yourself, you can find my test script in the `bench/`
+directory.
+
+
 Installation
 ------------
 
@@ -231,3 +253,4 @@ There's a lot more info on the [Google Blog][2].
 [4]: https://amzn.to/2EezezD "Note: affiliate link"
 [5]: https://caniuse.com/#search=bigint
 [6]: http://wiki.c2.com/?BankersRounding
+[7]: https://www.npmjs.com/package/big-money
