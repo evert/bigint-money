@@ -11,7 +11,7 @@ Changelog
 * Added `toSource()` and `fromSource()` methods to easily get access to the
   underlying bigint.
 * `Money.value` is now private.
-
+* Nice v8 debugger output. Shows the currency + the symbol.
 
 0.2.0 (2018-12-12)
 ------------------

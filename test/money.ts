@@ -335,4 +335,14 @@ describe('Money class', () => {
 
   });
 
+  describe('Debug output', () => {
+
+    it('should return a meaningful value', () => {
+
+      const m = new Money(1, 'USD');
+      expect((<any> m)[Symbol.for('nodejs.util.inspect.custom')]()).to.equal('1.0000 USD');
+
+    });
+
+  });
 });
