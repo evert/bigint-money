@@ -196,4 +196,15 @@ export class Money {
     return m;
 
   }
+
+  /**
+   * This function creates custom output in console.log statements.
+   */
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
+
+    // The 4-digit choice is arbitrary. Might revise this.
+    return this.toFixed(4) + ' ' + this.currency;
+
+  }
+
 }
