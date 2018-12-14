@@ -8,6 +8,9 @@ Changelog
 * Added an implementation of the `allocate()` function from Fowler's
   Enterprise Design Patterns.
 * Fixed parsing string numbers without a fractional part.
+* Added `toSource()` and `fromSource()` methods to easily get access to the
+  underlying bigint.
+* `Money.value` is now private.
 
 
 0.2.0 (2018-12-12)

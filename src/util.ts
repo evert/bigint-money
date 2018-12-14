@@ -19,7 +19,7 @@ export const PRECISION_M = 10n ** PRECISION;
 export function moneyValueToBigInt(input: Money | string | number | bigint): bigint {
 
   if (input instanceof Money) {
-    return input.value;
+    return input.toSource();
   }
 
   switch (typeof input) {

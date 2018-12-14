@@ -10,7 +10,7 @@ import {
 export class Money {
 
   currency: string;
-  value: bigint;
+  private value: bigint;
 
   constructor(value: number | bigint | string, currency: string) {
 
@@ -40,8 +40,7 @@ export class Money {
     }
 
     const addVal = moneyValueToBigInt(val);
-    const r = new Money(0, this.currency);
-    r.value = addVal + this.value;
+    const r = Money.fromSource(addVal + this.value, this.currency);
     return r;
 
   }
@@ -53,9 +52,7 @@ export class Money {
     }
 
     const subVal = moneyValueToBigInt(val);
-    const r = new Money(0, this.currency);
-    r.value = this.value - subVal;
-    return r;
+    return Money.fromSource(this.value - subVal, this.currency);
 
   }
 
@@ -75,9 +72,10 @@ export class Money {
     // Converting the dividor.
     const val2 = moneyValueToBigInt(val);
 
-    const result = new Money(0, this.currency);
-    result.value = nearestEvenDivide(val1, val2);
-    return result;
+    return Money.fromSource(
+      nearestEvenDivide(val1, val2),
+      this.currency
+    );
 
   }
 
@@ -91,9 +89,10 @@ export class Money {
     // Converting the dividor.
     const resultBig = valBig * this.value;
 
-    const result = new Money(0, this.currency);
-    result.value = nearestEvenDivide(resultBig, PRECISION_M);
-    return result;
+    return Money.fromSource(
+      nearestEvenDivide(resultBig, PRECISION_M),
+      this.currency
+    );
 
 
   }
@@ -163,12 +162,38 @@ export class Money {
 
     return result.map( item => {
 
-      const m = new Money(0, this.currency);
-      m.value = item * precisionRounder;
-      return m;
+      return Money.fromSource(
+        item * precisionRounder,
+        this.currency
+      );
 
     });
 
   }
 
+  /**
+   * Returns the underlying bigint value.
+   *
+   * This is the current value of the object, multiplied by 10 ** 12.
+   */
+  toSource(): bigint {
+
+    return this.value;
+
+  }
+
+  /**
+   * A factory function to construct a Money object a 'source' value.
+   *
+   * The source value is just the underlying bigint used in the Money
+   * class and can be obtained by calling Money.getSource().
+   */
+  static fromSource(val: bigint, currency: string): Money {
+
+    const m = new Money(0, currency);
+    m.value = val;
+
+    return m;
+
+  }
 }

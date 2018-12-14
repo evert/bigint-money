@@ -162,12 +162,6 @@ number of digits you are interested in.
 For USD and most currencies this is 2. It's required to pass this argument
 because the Money object can't guess the desired precision.
 
-### TODO
-
-1. toSource (to get the underlying bigint value)
-2. fromSource (to create a new Money object from a high-precision
-   bigint value)
-
 
 Why is this library needed?
 ---------------------------
