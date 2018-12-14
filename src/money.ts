@@ -3,7 +3,8 @@ import {
   bigintToFixed,
   moneyValueToBigInt,
   nearestEvenDivide,
-  PRECISION_M
+  PRECISION,
+  PRECISION_M,
 } from './util';
 
 export class Money {
@@ -113,6 +114,60 @@ export class Money {
     const bigVal = moneyValueToBigInt(val);
     if (bigVal === this.value) { return 0; }
     return this.value < bigVal ? -1 : 1;
+
+  }
+
+  /**
+   * Allocate this value to different parts.
+   *
+   * This is useful in cases no money can be lost when splitting in different
+   * parts. For example, when splitting $1 between 3 people, this function will
+   * return 3.34, 3.33, 3.33.
+   *
+   * The remainder of the split will be added round-robin to the results,
+   * starting with the first group.
+   *
+   * The reason precision must be specified, is because under the hood this
+   * library uses 12 digits for precision. But when splitting a whole dollar,
+   * you might only be interested in cents (precision = 2).
+   *
+   *
+   */
+  allocate(parts: number, precision: number): Money[] {
+
+    const bParts = BigInt(parts);
+
+    // Javascript will round to 0.
+    const fraction = this.value / bParts;
+    const remainder = this.value % bParts;
+
+    // This value is used for rounding to the desired precision
+    const precisionRounder = BigInt(10) ** (PRECISION - BigInt(precision));
+
+    const roundedFraction = (fraction / precisionRounder);
+    const roundedRemainder = fraction % precisionRounder;
+
+    // We had 2 division operators, and we want to keep remainders for both
+    // of them.
+    const totalRoundedRemainder = ((roundedRemainder + remainder) * bParts) / precisionRounder;
+
+    const result: Array<bigint> = Array(parts).fill(roundedFraction);
+
+    // Figure out how many spare 'cents' we need to distribute. If the number
+    // is negative, we need to spread debt instead.
+    const add = BigInt(totalRoundedRemainder > 0 ? 1 : -1);
+
+    for (let i = 0; i < Math.abs(Number(totalRoundedRemainder)); i++) {
+      result[i] += add;
+    }
+
+    return result.map( item => {
+
+      const m = new Money(0, this.currency);
+      m.value = item * precisionRounder;
+      return m;
+
+    });
 
   }
 

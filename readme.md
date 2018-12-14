@@ -132,11 +132,40 @@ const values = [
 values.sort( (a, b) => a.compare(b) );
 ```
 
+### Allocate
+
+When splitting money in parts, it might be possible to lose a penny.
+For example, when dividing $1 between 3 people, each person gets
+`$ 0.33` but there's a spare `$ 0.01`.
+
+The allocate function splits a Money value in even parts, but the
+remainder is distributed over the parts round-robin.
+
+```javascript
+const earnings = new Money(100, 'USD');
+
+console.log(
+  earnings.allocate(3, 2);
+);
+
+// Results in 3 Money objects:
+//   33.34
+//   33.33
+//   33.33
+```
+
+Splitting debts (negative values) also works as expected.
+
+The second argument of the allocate function is the precision. Basically the
+number of digits you are interested in.
+
+For USD and most currencies this is 2. It's required to pass this argument
+because the Money object can't guess the desired precision.
+
 ### TODO
 
-1. Allocate
-2. toSource (to get the underlying bigint value)
-3. fromSource (to create a new Money object from a high-precision
+1. toSource (to get the underlying bigint value)
+2. fromSource (to create a new Money object from a high-precision
    bigint value)
 
 

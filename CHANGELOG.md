@@ -5,6 +5,8 @@ Changelog
 ------------------
 
 * Support for `divide()`, `multiply()`, `compare()`.
+* Added an implementation of the `allocate()` function from Fowler's
+  Enterprise Design Patterns.
 * Fixed parsing string numbers without a fractional part.
 
 
