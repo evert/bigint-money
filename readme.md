@@ -30,7 +30,7 @@ Usage
 Creating a money object.
 
 ```javascript
-const Money = require('bigint-money');
+const { Money } = require('bigint-money');
 const foo = new Money('5', 'USD');
 ```
 
