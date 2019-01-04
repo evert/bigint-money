@@ -6,7 +6,7 @@ Changelog
 
 * This library now adds a `toJSON()` function that has a default serialization
   for JSON files. Example: 1.5 USD will be JSON-stringified as `["1.5", "USD"]`.
-
+* The Money class is now the default export.
 
 0.3.0 (2018-12-13)
 ------------------
