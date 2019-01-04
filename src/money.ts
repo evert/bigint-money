@@ -4,6 +4,7 @@ import {
   moneyValueToBigInt,
   nearestEvenDivide,
   PRECISION,
+  PRECISION_I,
   PRECISION_M,
 } from './util';
 
@@ -204,6 +205,15 @@ export class Money {
 
     // The 4-digit choice is arbitrary. Might revise this.
     return this.toFixed(4) + ' ' + this.currency;
+
+  }
+
+  /**
+   * A default output for serializing to JSON
+   */
+  toJSON(): [string, string] {
+
+    return [this.toFixed(PRECISION_I).replace(/\.?0+$/, ''), this.currency];
 
   }
 

@@ -345,4 +345,28 @@ describe('Money class', () => {
     });
 
   });
+
+  describe('toJSON', () => {
+
+    const cases = [
+      ['1.000', '["1","DKK"]'],
+      ['1.100', '["1.1","DKK"]'],
+      ['1.111', '["1.111","DKK"]'],
+      ['10.11', '["10.11","DKK"]'],
+      ['10.00', '["10","DKK"]'],
+    ];
+
+    for(const cas of cases) {
+
+      it(`${cas[0]} DKK should JSON stringify to ${cas[1]}`, () => {
+
+        const m = new Money(cas[0], 'DKK');
+        const result = JSON.stringify(m);
+        expect(result).to.equal(cas[1]);
+
+      });
+
+    }
+
+  });
 });
