@@ -1,7 +1,14 @@
 Changelog
 =========
 
-0.3.0 (2018-12-??)
+0.4.0 (2019-01-04)
+------------------
+
+* This library now adds a `toJSON()` function that has a default serialization
+  for JSON files. Example: 1.5 USD will be JSON-stringified as `["1.5", "USD"]`.
+
+
+0.3.0 (2018-12-13)
 ------------------
 
 * Support for `divide()`, `multiply()`, `compare()`.
@@ -12,6 +19,7 @@ Changelog
   underlying bigint.
 * `Money.value` is now private.
 * Nice v8 debugger output. Shows the currency + the symbol.
+
 
 0.2.0 (2018-12-12)
 ------------------
