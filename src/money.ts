@@ -213,7 +213,16 @@ export class Money {
    */
   toJSON(): [string, string] {
 
-    return [this.toFixed(PRECISION_I).replace(/\.?0+$/, ''), this.currency];
+    return [this.format(), this.currency];
+
+  }
+
+  /**
+   * This function will return a string with all irrelevant 0's removed.
+   */
+  format(): string {
+
+    return this.toFixed(PRECISION_I).replace(/\.?0+$/, '');
 
   }
 

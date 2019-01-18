@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.5.0 (2010-01-18)
+------------------
+
+* Added a `format()` function that simply returns the currency value as a
+  string, with all insignificant 0's removed.
+
+
 0.4.0 (2019-01-04)
 ------------------
 

@@ -52,6 +52,28 @@ describe('Money class', () => {
     }
 
   });
+  describe('format', () => {
+
+    const tests = [
+      [1, '1'],
+
+      ['1.005', '1.005'],
+      ['1.0000', '1'],
+      ['-12314.325400050500', '-12314.3254000505'],
+      ['-5.0000', '-5'],
+
+    ];
+
+    for(const test of tests) {
+      it(`should return ${test[1]} when calling format on ${test[0]}`, () => {
+
+        const m = new Money(test[0], 'USD');
+        expect(m.format()).to.equal(test[1]);
+
+      });
+    }
+
+  });
 
   describe('Numbers with more precision than 12 digits', () => {
 
