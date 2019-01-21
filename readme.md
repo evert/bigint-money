@@ -78,7 +78,7 @@ const foo = new Money('5', 'USD');
 console.log(foo.toFixed(2)); // 5.00
 ```
 
-### Arithmatic
+### Arithmetic
 
 You can use `.add()` and `.subtract()` on it:
 
