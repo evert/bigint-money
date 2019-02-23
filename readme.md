@@ -195,13 +195,19 @@ import { Money, Round } from 'bigint-money';
 const m = new Money(100, 'USD', Round.HALF_AWAY_FROM_0);
 ```
 
-Possible options:
+Common rounding techniques round to the nearest integer, but require a
+tie-breaker for the `0.5` case. These are rounding options for that case:
 
 * `Round.HALF_TO_EVEN` - The default
 * `Round.BANKERS` - Alias of 'HALF_TO_EVEN'
 * `Round.AWAY_FROM_0` - Round away from 0. (up if positive, down if negative)
-* `Round.TOWARDS_0` - Round towards 0. (down if positive, up if negative).
+* `Round.HALF_TOWARDS_0` - Round towards 0. (down if positive, up if negative).
 
+These rounding options don't always go the nearest integer
+
+* `Round.TOWARDS_0` - Always rounds towards 0. This effectively just drops the
+  fraction.
+* `Round.TRUNCATE` - Alias for `TOWARDS_0`.
 
 Why is this library needed?
 ---------------------------

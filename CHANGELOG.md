@@ -4,7 +4,7 @@ Changelog
 0.6.1 (2019-??-??)
 ------------------
 
-* Added `Round.HALF_TOWARDS_0`.
+* Added `Round.HALF_TOWARDS_0`, `Round.TRUNCATE`.
 
 
 0.6.0 (2019-02-23)
