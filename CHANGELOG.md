@@ -1,7 +1,14 @@
 Changelog
 =========
 
-0.5.0 (2010-01-18)
+0.6.0 (2019-02-23)
+------------------
+
+* It's not possible to specify the rounding method. The default is still
+  `HALF_TO_EVEN` but a `HALF_AWAY_FROM_0` option has been added.
+
+
+0.5.0 (2019-01-18)
 ------------------
 
 * Added a `format()` function that simply returns the currency value as a
