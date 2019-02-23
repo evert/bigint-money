@@ -44,7 +44,7 @@ export class Money {
     }
 
     const addVal = moneyValueToBigInt(val, this.round);
-    const r = Money.fromSource(addVal + this.value, this.currency);
+    const r = Money.fromSource(addVal + this.value, this.currency, this.round);
     return r;
 
   }
@@ -56,7 +56,7 @@ export class Money {
     }
 
     const subVal = moneyValueToBigInt(val, this.round);
-    return Money.fromSource(this.value - subVal, this.currency);
+    return Money.fromSource(this.value - subVal, this.currency, this.round);
 
   }
 
@@ -78,7 +78,8 @@ export class Money {
 
     return Money.fromSource(
       divide(val1, val2, this.round),
-      this.currency
+      this.currency,
+      this.round,
     );
 
   }
@@ -95,7 +96,8 @@ export class Money {
 
     return Money.fromSource(
       divide(resultBig, PRECISION_M, this.round),
-      this.currency
+      this.currency,
+      this.round,
     );
 
 
@@ -168,7 +170,8 @@ export class Money {
 
       return Money.fromSource(
         item * precisionRounder,
-        this.currency
+        this.currency,
+        this.round
       );
 
     });
@@ -192,9 +195,9 @@ export class Money {
    * The source value is just the underlying bigint used in the Money
    * class and can be obtained by calling Money.getSource().
    */
-  static fromSource(val: bigint, currency: string): Money {
+  static fromSource(val: bigint, currency: string, round: Round = Round.HALF_TO_EVEN): Money {
 
-    const m = new Money(0, currency);
+    const m = new Money(0, currency, round);
     m.value = val;
 
     return m;
