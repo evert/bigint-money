@@ -195,6 +195,13 @@ import { Money, Round } from 'bigint-money';
 const m = new Money(100, 'USD', Round.HALF_AWAY_FROM_0);
 ```
 
+Possible options:
+
+* `Round.HALF_TO_EVEN` - The default
+* `Round.BANKERS` - Alias of 'HALF_TO_EVEN'
+* `Round.AWAY_FROM_0` - Round away from 0. (up if positive, down if negative)
+* `Round.TOWARDS_0` - Round towards 0. (down if positive, up if negative).
+
 
 Why is this library needed?
 ---------------------------

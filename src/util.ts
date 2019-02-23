@@ -13,7 +13,8 @@ export const PRECISION_M = 10n ** PRECISION;
 export enum Round {
   HALF_TO_EVEN = 1,
   BANKERS = 1, // Alias
-  HALF_AWAY_FROM_0 = 2
+  HALF_AWAY_FROM_0 = 2,
+  HALF_TOWARDS_0 = 3,
 }
 
 
@@ -152,6 +153,9 @@ export function divide(a: bigint, b: bigint, round: Round) {
         break;
       case Round.HALF_AWAY_FROM_0:
         result++;
+        break;
+      case Round.HALF_TOWARDS_0:
+        // Do nothing
         break;
     }
   }
