@@ -142,7 +142,6 @@ export function divide(a: bigint, b: bigint, round: Round) {
   if (rem * 2n > bAbs) {
       result ++;
   } else if (rem * 2n === bAbs) {
-    console.log(round);
     switch (round) {
       case Round.HALF_TO_EVEN:
         // Add 1 if result is odd to get an even return value

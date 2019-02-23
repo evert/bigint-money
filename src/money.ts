@@ -13,13 +13,13 @@ export class Money {
 
   currency: string;
   private value: bigint;
-  round: Round;
+  private round: Round;
 
   constructor(value: number | bigint | string, currency: string, round: Round = Round.HALF_TO_EVEN) {
 
     this.currency = currency;
-    this.value = moneyValueToBigInt(value, this.round);
     this.round = round;
+    this.value = moneyValueToBigInt(value, this.round);
 
   }
 
