@@ -1,22 +1,25 @@
 import { IncompatibleCurrencyError } from './errors';
 import {
   bigintToFixed,
+  divide,
   moneyValueToBigInt,
-  nearestEvenDivide,
   PRECISION,
   PRECISION_I,
   PRECISION_M,
+  Round,
 } from './util';
 
 export class Money {
 
   currency: string;
   private value: bigint;
+  round: Round;
 
-  constructor(value: number | bigint | string, currency: string) {
+  constructor(value: number | bigint | string, currency: string, round: Round = Round.HALF_TO_EVEN) {
 
     this.currency = currency;
-    this.value = moneyValueToBigInt(value);
+    this.value = moneyValueToBigInt(value, this.round);
+    this.round = round;
 
   }
 
@@ -30,7 +33,7 @@ export class Money {
    */
   toFixed(precision: number): string {
 
-    return bigintToFixed(this.value, precision);
+    return bigintToFixed(this.value, precision, this.round);
 
   }
 
@@ -40,7 +43,7 @@ export class Money {
       throw new IncompatibleCurrencyError('You cannot add Money from different currencies. Convert first');
     }
 
-    const addVal = moneyValueToBigInt(val);
+    const addVal = moneyValueToBigInt(val, this.round);
     const r = Money.fromSource(addVal + this.value, this.currency);
     return r;
 
@@ -52,7 +55,7 @@ export class Money {
       throw new IncompatibleCurrencyError('You cannot subtract Money from different currencies. Convert first');
     }
 
-    const subVal = moneyValueToBigInt(val);
+    const subVal = moneyValueToBigInt(val, this.round);
     return Money.fromSource(this.value - subVal, this.currency);
 
   }
@@ -68,13 +71,13 @@ export class Money {
     // again as otherwise we will lose precision.
     //
     // This means for an original of $1 this would now be $1 * 10**24.
-    const val1 = moneyValueToBigInt(this.value);
+    const val1 = moneyValueToBigInt(this.value, this.round);
 
     // Converting the dividor.
-    const val2 = moneyValueToBigInt(val);
+    const val2 = moneyValueToBigInt(val, this.round);
 
     return Money.fromSource(
-      nearestEvenDivide(val1, val2),
+      divide(val1, val2, this.round),
       this.currency
     );
 
@@ -85,13 +88,13 @@ export class Money {
    */
   multiply(val: number | string): Money {
 
-    const valBig = moneyValueToBigInt(val);
+    const valBig = moneyValueToBigInt(val, this.round);
 
     // Converting the dividor.
     const resultBig = valBig * this.value;
 
     return Money.fromSource(
-      nearestEvenDivide(resultBig, PRECISION_M),
+      divide(resultBig, PRECISION_M, this.round),
       this.currency
     );
 
@@ -111,7 +114,7 @@ export class Money {
       throw new IncompatibleCurrencyError('You cannot compare different currencies.');
     }
 
-    const bigVal = moneyValueToBigInt(val);
+    const bigVal = moneyValueToBigInt(val, this.round);
     if (bigVal === this.value) { return 0; }
     return this.value < bigVal ? -1 : 1;
 

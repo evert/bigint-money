@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { nearestEvenDivide } from '../src/util';
+import { divide, Round } from '../src/util';
 
-describe('nearestEvenDivide', () => {
+describe('divide', () => {
 
   const tests = [
     [7n, 2n, 4n],
@@ -14,7 +14,9 @@ describe('nearestEvenDivide', () => {
 
     it(`${test[0]} / ${test[1]} = ${test[2]}`, () => {
 
-      expect(nearestEvenDivide(test[0], test[1])).to.equal(test[2]);
+      expect(
+        divide(test[0], test[1], Round.HALF_TO_EVEN),
+      ).to.equal(test[2]);
 
     });
 
