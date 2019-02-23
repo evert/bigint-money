@@ -3,15 +3,15 @@ bigint-money
 
 This library can be used for doing math with Money. Key features:
 
-* This uses the the Ecmascript [bigint][2] type.
+* Uses the the Ecmascript [bigint][2] type.
 * Written in Typescript.
-* More-or-less follows [Martin Fowler's Money Type][3] from
+* Loosely follows [Martin Fowler's Money Type][3] from
  ["Patterns of Enterprise Application Architecture"][4].
 * Faster than Money packages that use non-native bigdecimal libraries.
 * All rounding is done via the ["Bankers Rounding"][6] (a.k.a. "round
   half to even") by default, but different rounding strategies can be
   specified.
-* Under the hood uses 12 decimals for any calculations.
+* Uses 12 decimals for all calculations.
 
 `bigint` is really new. As of today, this library only works in
 up-to-date versions of Chrome and Node.js. See [caniuse.com][5].
@@ -79,7 +79,7 @@ const foo = new Money('5', 'USD');
 console.log(foo.toFixed(2)); // 5.00
 ```
 
-### Arithmatic
+### Arithmetic
 
 You can use `.add()` and `.subtract()` on it:
 
