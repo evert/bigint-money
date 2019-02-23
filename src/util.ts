@@ -11,10 +11,17 @@ export const PRECISION = BigInt(PRECISION_I);
 export const PRECISION_M = 10n ** PRECISION;
 
 export enum Round {
+
+  // The following rules are round to the nearest integer, but have different
+  // rules for when it's right in the middle (.5).
   HALF_TO_EVEN = 1,
   BANKERS = 1, // Alias
   HALF_AWAY_FROM_0 = 2,
   HALF_TOWARDS_0 = 3,
+
+  // These cases don't always round to the nearest integer
+  TOWARDS_0 = 11, // Effectively drops the fractional part
+  TRUNCATE = 11, // Alias
 }
 
 
@@ -139,9 +146,18 @@ export function divide(a: bigint, b: bigint, round: Round) {
 
   let result = aAbs / bAbs;
   const rem = aAbs % bAbs;
-  // if remainder > half divisor, should have rounded up instead of down, so add 1
+
+  // if remainder > half divisor
   if (rem * 2n > bAbs) {
-      result ++;
+    switch (round) {
+      case Round.TRUNCATE:
+        // do nothing
+        break;
+      default :
+        // We should have rounded up instead of down.
+        result++;
+        break;
+    }
   } else if (rem * 2n === bAbs) {
     // If the remainder is exactly half the divisor, it means that the result is
     // exactly in between two numbers and we need to apply a specific rounding
@@ -154,6 +170,7 @@ export function divide(a: bigint, b: bigint, round: Round) {
       case Round.HALF_AWAY_FROM_0:
         result++;
         break;
+      case Round.TRUNCATE:
       case Round.HALF_TOWARDS_0:
         // Do nothing
         break;
