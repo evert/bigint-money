@@ -9,7 +9,8 @@ This library can be used for doing math with Money. Key features:
  ["Patterns of Enterprise Application Architecture"][4].
 * Faster than Money packages that use non-native bigdecimal libraries.
 * All rounding is done via the ["Bankers Rounding"][6] (a.k.a. "round
-  half to even").
+  half to even") by default, but different rounding strategies can be
+  specified.
 * Under the hood uses 12 decimals for any calculations.
 
 `bigint` is really new. As of today, this library only works in
@@ -183,6 +184,16 @@ number of digits you are interested in.
 
 For USD and most currencies this is 2. It's required to pass this argument
 because the Money object can't guess the desired precision.
+
+### Rounding
+
+By default this library uses 'round half to even' aka 'bankers rounding', but
+a different rounding method may be specified in the constructor.
+
+```javascript
+import { Money, Round } from 'bigint-money';
+const m = new Money(100, 'USD', Round.HALF_AWAY_FROM_0);
+```
 
 
 Why is this library needed?
