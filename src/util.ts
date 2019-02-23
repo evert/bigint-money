@@ -142,6 +142,9 @@ export function divide(a: bigint, b: bigint, round: Round) {
   if (rem * 2n > bAbs) {
       result ++;
   } else if (rem * 2n === bAbs) {
+    // If the remainder is exactly half the divisor, it means that the result is
+    // exactly in between two numbers and we need to apply a specific rounding
+    // method.
     switch (round) {
       case Round.HALF_TO_EVEN:
         // Add 1 if result is odd to get an even return value
