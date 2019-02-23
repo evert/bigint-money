@@ -391,4 +391,5 @@ describe('Money class', () => {
     }
 
   });
+
 });

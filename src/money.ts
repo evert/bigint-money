@@ -1,22 +1,25 @@
 import { IncompatibleCurrencyError } from './errors';
 import {
   bigintToFixed,
+  divide,
   moneyValueToBigInt,
-  nearestEvenDivide,
   PRECISION,
   PRECISION_I,
   PRECISION_M,
+  Round,
 } from './util';
 
 export class Money {
 
   currency: string;
   private value: bigint;
+  private round: Round;
 
-  constructor(value: number | bigint | string, currency: string) {
+  constructor(value: number | bigint | string, currency: string, round: Round = Round.HALF_TO_EVEN) {
 
     this.currency = currency;
-    this.value = moneyValueToBigInt(value);
+    this.round = round;
+    this.value = moneyValueToBigInt(value, this.round);
 
   }
 
@@ -30,7 +33,7 @@ export class Money {
    */
   toFixed(precision: number): string {
 
-    return bigintToFixed(this.value, precision);
+    return bigintToFixed(this.value, precision, this.round);
 
   }
 
@@ -40,8 +43,8 @@ export class Money {
       throw new IncompatibleCurrencyError('You cannot add Money from different currencies. Convert first');
     }
 
-    const addVal = moneyValueToBigInt(val);
-    const r = Money.fromSource(addVal + this.value, this.currency);
+    const addVal = moneyValueToBigInt(val, this.round);
+    const r = Money.fromSource(addVal + this.value, this.currency, this.round);
     return r;
 
   }
@@ -52,8 +55,8 @@ export class Money {
       throw new IncompatibleCurrencyError('You cannot subtract Money from different currencies. Convert first');
     }
 
-    const subVal = moneyValueToBigInt(val);
-    return Money.fromSource(this.value - subVal, this.currency);
+    const subVal = moneyValueToBigInt(val, this.round);
+    return Money.fromSource(this.value - subVal, this.currency, this.round);
 
   }
 
@@ -68,14 +71,15 @@ export class Money {
     // again as otherwise we will lose precision.
     //
     // This means for an original of $1 this would now be $1 * 10**24.
-    const val1 = moneyValueToBigInt(this.value);
+    const val1 = moneyValueToBigInt(this.value, this.round);
 
     // Converting the dividor.
-    const val2 = moneyValueToBigInt(val);
+    const val2 = moneyValueToBigInt(val, this.round);
 
     return Money.fromSource(
-      nearestEvenDivide(val1, val2),
-      this.currency
+      divide(val1, val2, this.round),
+      this.currency,
+      this.round,
     );
 
   }
@@ -85,14 +89,15 @@ export class Money {
    */
   multiply(val: number | string): Money {
 
-    const valBig = moneyValueToBigInt(val);
+    const valBig = moneyValueToBigInt(val, this.round);
 
     // Converting the dividor.
     const resultBig = valBig * this.value;
 
     return Money.fromSource(
-      nearestEvenDivide(resultBig, PRECISION_M),
-      this.currency
+      divide(resultBig, PRECISION_M, this.round),
+      this.currency,
+      this.round,
     );
 
 
@@ -111,7 +116,7 @@ export class Money {
       throw new IncompatibleCurrencyError('You cannot compare different currencies.');
     }
 
-    const bigVal = moneyValueToBigInt(val);
+    const bigVal = moneyValueToBigInt(val, this.round);
     if (bigVal === this.value) { return 0; }
     return this.value < bigVal ? -1 : 1;
 
@@ -165,7 +170,8 @@ export class Money {
 
       return Money.fromSource(
         item * precisionRounder,
-        this.currency
+        this.currency,
+        this.round
       );
 
     });
@@ -189,9 +195,9 @@ export class Money {
    * The source value is just the underlying bigint used in the Money
    * class and can be obtained by calling Money.getSource().
    */
-  static fromSource(val: bigint, currency: string): Money {
+  static fromSource(val: bigint, currency: string, round: Round = Round.HALF_TO_EVEN): Money {
 
-    const m = new Money(0, currency);
+    const m = new Money(0, currency, round);
     m.value = val;
 
     return m;

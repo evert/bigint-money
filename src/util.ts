@@ -10,13 +10,19 @@ export const PRECISION = BigInt(PRECISION_I);
 // Multiplication factor for internal values
 export const PRECISION_M = 10n ** PRECISION;
 
+export enum Round {
+  HALF_TO_EVEN = 1,
+  BANKERS = 1, // Alias
+  HALF_AWAY_FROM_0 = 2
+}
+
 
 /**
  * This helper function takes a string, number or anything that can
  * be used in the constructor of a Money object, and returns a bigint
  * with adjusted precision.
  */
-export function moneyValueToBigInt(input: Money | string | number | bigint): bigint {
+export function moneyValueToBigInt(input: Money | string | number | bigint, round: Round): bigint {
 
   if (input instanceof Money) {
     return input.toSource();
@@ -53,7 +59,7 @@ export function moneyValueToBigInt(input: Money | string | number | bigint): big
           output += BigInt(fracPart) * 10n ** precisionDifference;
         } else {
           // Remove 0's
-          output += nearestEvenDivide(BigInt(fracPart), 10n ** (-precisionDifference));
+          output += divide(BigInt(fracPart), 10n ** (-precisionDifference), round);
         }
       }
 
@@ -84,11 +90,11 @@ export function moneyValueToBigInt(input: Money | string | number | bigint): big
  *
  * Precision is the number of decimals that are returned.
  */
-export function bigintToFixed(value: bigint, precision: number) {
+export function bigintToFixed(value: bigint, precision: number, round: Round) {
 
   if (precision === 0) {
     // No decimals were requested.
-    return nearestEvenDivide(value, PRECISION_M).toString();
+    return divide(value, PRECISION_M, round).toString();
   }
 
   const wholePart = (value / PRECISION_M);
@@ -101,7 +107,7 @@ export function bigintToFixed(value: bigint, precision: number) {
     remainder *= 10n ** (BigInt(precision) - PRECISION);
   } else {
     // Less precision was requested, so we round
-    remainder = nearestEvenDivide(remainder, 10n ** (PRECISION - BigInt(precision)));
+    remainder = divide(remainder, 10n ** (PRECISION - BigInt(precision)), round);
   }
 
   if (remainder < 0) { remainder *= -1n; }
@@ -124,7 +130,7 @@ export function bigintToFixed(value: bigint, precision: number) {
  * This function rounds to the nearest even number, also
  * known as 'bankers rounding'.
  */
-export function nearestEvenDivide(a: bigint, b: bigint) {
+export function divide(a: bigint, b: bigint, round: Round) {
 
   // Get absolute versions. We'll deal with the negatives later.
   const aAbs = a > 0 ? a : -a;
@@ -136,8 +142,18 @@ export function nearestEvenDivide(a: bigint, b: bigint) {
   if (rem * 2n > bAbs) {
       result ++;
   } else if (rem * 2n === bAbs) {
-      // Add 1 if result is odd to get an even return value
-      if (result % 2n === 1n) { result++; }
+    // If the remainder is exactly half the divisor, it means that the result is
+    // exactly in between two numbers and we need to apply a specific rounding
+    // method.
+    switch (round) {
+      case Round.HALF_TO_EVEN:
+        // Add 1 if result is odd to get an even return value
+        if (result % 2n === 1n) { result++; }
+        break;
+      case Round.HALF_AWAY_FROM_0:
+        result++;
+        break;
+    }
   }
 
   if (a > 0 !== b > 0) {
