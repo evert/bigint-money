@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.6.1 (2019-??-??)
+0.6.1 (2019-02-25)
 ------------------
 
 * Added `Round.HALF_TOWARDS_0`, `Round.TRUNCATE`.
