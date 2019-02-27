@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.6.2 (2019-02-27)
+------------------
+
+* Fixed critical bug in `toFixed()` function. It can round `0.995` to `0.100`
+  instead of `1`. This bug only appears when rounding decimals should increase
+  the integer part.
+
+
 0.6.1 (2019-02-25)
 ------------------
 
