@@ -124,7 +124,7 @@ export function bigintToFixed(value: bigint, precision: number, round: Round) {
 
   if (remainderStr.length > precision) {
     // The remainder rounded all the way up to the the 'whole part'
-    wholePart++;
+    wholePart += negative ? -1n : 1n;
     remainder = 0n;
     remainderStr = '0'.repeat(precision);
   }
