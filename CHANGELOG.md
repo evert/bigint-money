@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.6.3 (2019-02-27)
+------------------
+
+* Regression from "0.6.2": Negative values were still incorrect for the same
+  bug.
+
+
 0.6.2 (2019-02-27)
 ------------------
 
