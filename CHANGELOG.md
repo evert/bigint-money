@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.6.4 (2019-02-27)
+------------------
+
+* The last release didn't have all it's files correctly built. This version is
+  a re-release that's properly built.
+
+
 0.6.3 (2019-02-27)
 ------------------
 
