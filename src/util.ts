@@ -105,7 +105,7 @@ export function bigintToFixed(value: bigint, precision: number, round: Round) {
     return divide(value, PRECISION_M, round).toString();
   }
 
-  const wholePart = (value / PRECISION_M);
+  let wholePart = (value / PRECISION_M);
   const negative = value < 0;
   let remainder = (value % PRECISION_M);
 
@@ -119,7 +119,15 @@ export function bigintToFixed(value: bigint, precision: number, round: Round) {
   }
 
   if (remainder < 0) { remainder *= -1n; }
-  const remainderStr = remainder.toString().padStart(precision, '0');
+
+  let remainderStr = remainder.toString().padStart(precision, '0');
+
+  if (remainderStr.length > precision) {
+    // The remainder rounded all the way up to the the 'whole part'
+    wholePart++;
+    remainder = 0n;
+    remainderStr = '0'.repeat(precision);
+  }
 
   let wholePartStr = wholePart.toString();
   if (wholePartStr === '0' && negative) {
