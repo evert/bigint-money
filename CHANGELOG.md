@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.7.0 (2019-03-19)
+------------------
+
+* Added `isLesserThan`, `isGreaterThan`, `isEqual`, `isLesserThanOrEqual`,
+  `isGreaterThanOrEqual` methods.
+
+
 0.6.4 (2019-02-27)
 ------------------
 

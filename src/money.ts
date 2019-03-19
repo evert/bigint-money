@@ -100,6 +100,50 @@ export class Money {
       this.round,
     );
 
+  }
+
+  /**
+   * Returns true if this Money object is _less_ than the passed value
+   */
+  isLesserThan(val: number | string | Money): boolean {
+
+    return this.compare(val) === -1;
+
+  }
+
+  /**
+   * Returns true if this Money object is _more_ than the passed value
+   */
+  isGreaterThan(val: number | string | Money): boolean {
+
+    return this.compare(val) === 1;
+
+  }
+
+  /**
+   * Returns true if this Money object is _more_ than the passed value
+   */
+  isEqual(val: number | string | Money): boolean {
+
+    return this.compare(val) === 0;
+
+  }
+
+  /**
+   * Returns true if this Money object is _more_ than the passed value
+   */
+  isLesserThanOrEqual(val: number | string | Money): boolean {
+
+    return this.compare(val) < 1;
+
+  }
+
+  /**
+   * Returns true if this Money object is _more_ than the passed value
+   */
+  isGreaterThanOrEqual(val: number | string | Money): boolean {
+
+    return this.compare(val) > -1;
 
   }
 
@@ -121,6 +165,7 @@ export class Money {
     return this.value < bigVal ? -1 : 1;
 
   }
+
 
   /**
    * Allocate this value to different parts.

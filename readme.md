@@ -124,6 +124,20 @@ const result = new Money('2000').multiply('1.25');
 
 ### Comparing objects
 
+The Money object has the following functions for comparisons:
+
+* `isLesserThan`
+* `isGreaterThan`
+* `isEqual`
+* `isLesserThanOrEqual`
+* `isGreaterThanOrEqual`
+
+All of them can take a (safe) number, a string or another `Money` object and
+return a boolean.
+
+There is also a `compare()` function that returns `-1`, `0` or `-1` depending
+on if the passed argument was more, equal or less than the object.
+
 Right now the Money object has a single function for comparison.
 
 ```javascript
