@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.7.1 (2019-03-19)
+------------------
+
+* Re-release: Stripped all development files from the npm package build. This
+  makes the npm package a lot slimmer.
+
+
 0.7.0 (2019-03-19)
 ------------------
 
