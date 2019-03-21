@@ -11,7 +11,7 @@ This library can be used for doing math with Money. Key features:
 * All rounding is done via the ["Bankers Rounding"][6] (a.k.a. "round
   half to even") by default, but different rounding strategies can be
   specified.
-* Uses 12 decimals for all calculations.
+* Uses 20 decimals for all calculations.
 
 `bigint` is really new. As of today, this library only works in
 up-to-date versions of Chrome and Node.js. See [caniuse.com][5].

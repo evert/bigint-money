@@ -1,6 +1,15 @@
 Changelog
 =========
 
+0.8.0 (2019-??-??)
+------------------
+
+* Increased the precision to 20 digits, up from 12. Someone had a need for more
+  than 12 digits, and 20 seems like a reasonable new limit.
+  Perhaps at one point this will be configurable but picking a good default
+  seems like a sane choice right now.
+
+
 0.7.1 (2019-03-19)
 ------------------
 

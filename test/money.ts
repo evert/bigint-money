@@ -1,5 +1,6 @@
 import { Money, UnsafeIntegerError, IncompatibleCurrencyError } from '../src';
 import { expect } from 'chai';
+import { PRECISION_I } from '../src/util';
 
 describe('Money class', () => {
 
@@ -75,23 +76,25 @@ describe('Money class', () => {
 
   });
 
-  describe('Numbers with more precision than 12 digits', () => {
+  describe('Numbers with more precision than '+PRECISION_I+' digits', () => {
 
-    it('should round to even beyond the 12-digit precision', () => {
+    const zeroes = '0'.repeat(PRECISION_I-1);
 
-      const m = new Money('1.1112223330005', 'USD');
+    it('should round to even', () => {
+
+      const m = new Money('1.' + zeroes + '05', 'USD');
       expect(m).to.be.an.instanceof(Money);
       expect(m.currency).to.equal('USD');
-      expect(m.toFixed(13)).to.equal('1.1112223330000');
+      expect(m.toFixed(PRECISION_I + 1)).to.equal('1.' + zeroes + '00');
 
     });
 
-    it('should round to even beyond the 12-digit precision (2)', () => {
+    it('should round to even (2)', () => {
 
-      const m = new Money('1.1112223330015', 'USD');
+      const m = new Money('1.' + zeroes + '15', 'USD');
       expect(m).to.be.an.instanceof(Money);
       expect(m.currency).to.equal('USD');
-      expect(m.toFixed(13)).to.equal('1.1112223330020');
+      expect(m.toFixed(PRECISION_I + 1)).to.equal('1.' + zeroes + '20');
 
     });
 
@@ -305,7 +308,7 @@ describe('Money class', () => {
     it('should return the underlying source bigint value', () => {
 
       const m = new Money(1, 'USD');
-      expect(m.toSource()).to.equal(1000000000000n);
+      expect(m.toSource()).to.equal(1n * (10n ** BigInt(PRECISION_I)));
 
     });
 
