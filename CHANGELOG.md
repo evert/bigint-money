@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.8.0 (2019-??-??)
+0.8.0 (2019-03-21)
 ------------------
 
 * Increased the precision to 20 digits, up from 12. Someone had a need for more
