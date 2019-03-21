@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.8.1 (2019-03-21)
+------------------
+
+* Re-release of 0.8.0 with the correct build artifacts.
+* I've also updated `package.json` so we do a correct build before publish, so
+  this issue won't happen again.
+
+
 0.8.0 (2019-03-21)
 ------------------
 
