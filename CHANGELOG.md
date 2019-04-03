@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.8.2 (2019-04-03)
+------------------
+
+* Don't round numbers when used with `console.log()`.
+
+
 0.8.1 (2019-03-21)
 ------------------
 

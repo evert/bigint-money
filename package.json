@@ -1,6 +1,6 @@
 {
   "name": "bigint-money",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A Money class for high precision calculations using the ESnext bigint type.",
   "main": "dist/index.js",
   "scripts": {
@@ -27,13 +27,13 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.11.4",
+    "@types/node": "^11.13.0",
     "chai": "^4.2.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.2",
     "nyc": "^13.3.0",
     "ts-node": "^8.0.3",
-    "tslint": "^5.14.0",
-    "typescript": "^3.3.4000"
+    "tslint": "^5.15.0",
+    "typescript": "^3.4.1"
   },
   "nyc": {
     "extension": [
