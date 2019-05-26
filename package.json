@@ -27,13 +27,13 @@
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
-    "@types/node": "^11.13.0",
+    "@types/node": "^12.0.2",
     "chai": "^4.2.0",
-    "mocha": "^6.0.2",
-    "nyc": "^13.3.0",
-    "ts-node": "^8.0.3",
-    "tslint": "^5.15.0",
-    "typescript": "^3.4.1"
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "ts-node": "^8.2.0",
+    "tslint": "^5.16.0",
+    "typescript": "^3.4.5"
   },
   "nyc": {
     "extension": [
