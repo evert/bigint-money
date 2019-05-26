@@ -1,6 +1,14 @@
 Changelog
 =========
 
+1.0.0 (2019-05-26)
+------------------
+
+* Added `abs()` function, to remove the sign from values. (@flaktack)
+* Added `sign()` function to find out if a number is postive, negative or
+  zero (@flaktack).
+
+
 0.8.2 (2019-04-03)
 ------------------
 
