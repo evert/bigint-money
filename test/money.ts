@@ -269,10 +269,60 @@ describe('Money class', () => {
 
     for (const cas of cases) {
 
-      it(`${cas[0]} / ${cas[1]} = ${cas[2]}`, () => {
+      it(`${cas[0]} * ${cas[1]} = ${cas[2]}`, () => {
 
         const x = new Money(cas[0], 'ETH');
         expect(x.multiply(cas[1]).toFixed(2)).to.equal(cas[2]);
+
+      });
+
+    }
+
+  });
+
+  describe('abs', () => {
+
+    const cases = [
+      ['0', '0.00'],
+      ['-1', '1.00'],
+      ['-10000', '10000.00'],
+      [20, '20.00'],
+      [-20, '20.00'],
+      ['0.5', '0.50'],
+      ['-0.5', '0.50'],
+    ];
+
+    for (const cas of cases) {
+
+      it(`abs(${cas[0]}) = ${cas[1]}`, () => {
+
+        const x = new Money(cas[0], 'ETH');
+        expect(x.abs().toFixed(2)).to.equal(cas[1]);
+
+      });
+
+    }
+
+  });
+
+  describe('sign', () => {
+
+    const cases = [
+      ['0', 0],
+      ['-1', -1],
+      ['-10000', -1],
+      [20, 1],
+      [-20, -1],
+      ['0.5', 1],
+      ['-0.5', -1],
+    ];
+
+    for (const cas of cases) {
+
+      it(`sign(${cas[0]}) = ${cas[1]}`, () => {
+
+        const x = new Money(cas[0], 'ETH');
+        expect(x.sign()).to.equal(cas[1]);
 
       });
 

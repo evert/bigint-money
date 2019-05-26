@@ -103,6 +103,24 @@ export class Money {
   }
 
   /**
+   * Returns the absolute value.
+   */
+  abs(): Money {
+
+    return this.multiply(this.sign());
+
+  }
+
+  /**
+   * Return -1 if the value is less than zero, 0 if zero, and 1 if more than zero.
+   */
+  sign(): number {
+
+    return this.compare(0);
+
+  }
+
+  /**
    * Returns true if this Money object is _less_ than the passed value
    */
   isLesserThan(val: number | string | Money): boolean {
