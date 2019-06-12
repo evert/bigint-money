@@ -64,8 +64,12 @@ export class Money {
    * Divide the current number with the specified number.
    *
    * This function returns a new Money object with the result.
+   *
+   * Unlike add, subtract, divide and multiply do accept mismatching
+   * currencies. When calling divide, the currency of _this_ Money object will
+   * be used for the resulting object.
    */
-  divide(val: number | string ): Money {
+  divide(val: number | string | Money): Money {
 
     // Even though val1 was already in 'bigint' format, we run this
     // again as otherwise we will lose precision.
@@ -86,8 +90,12 @@ export class Money {
 
   /**
    * Multiply
+   *
+   * Unlike add, subtract, divide and multiply do accept mismatching
+   * currencies. When calling multiply, the currency of _this_ Money object will
+   * be used for the resulting object.
    */
-  multiply(val: number | string): Money {
+  multiply(val: number | string | Money): Money {
 
     const valBig = moneyValueToBigInt(val, this.round);
 
