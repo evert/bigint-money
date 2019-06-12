@@ -20,6 +20,13 @@ describe('Money class', () => {
 
   });
 
+  it('should error when instantiating with bad string formats', () => {
+
+    expect( () => {
+      new Money('1,5', 'yen');
+    }).to.throw(TypeError);
+
+  });
 
   describe('toFixed', () => {
 
