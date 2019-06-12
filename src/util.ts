@@ -78,13 +78,11 @@ export function moneyValueToBigInt(input: Money | string | number | bigint, roun
       return output;
     case 'bigint':
       return input * PRECISION_M;
-      break;
     case 'number' :
       if (!Number.isSafeInteger(input)) {
         throw new UnsafeIntegerError('The number ' + input + ' is not a "safe" integer. It must be converted before passing it');
       }
       return BigInt(input) * PRECISION_M;
-      break;
     default :
       throw new TypeError('value must be a safe integer, bigint or string');
 
