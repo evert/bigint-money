@@ -1,6 +1,6 @@
 {
   "name": "bigint-money",
-  "version": "0.8.2",
+  "version": "1.0.0",
   "description": "A Money class for high precision calculations using the ESnext bigint type.",
   "main": "dist/index.js",
   "scripts": {
