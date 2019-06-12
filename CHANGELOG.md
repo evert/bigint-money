@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.1.0 (2019-06-12)
+------------------
+
+* `multiply()` and `divide()` can now accept other `Money` objects as
+  arguments.
+
+
 1.0.0 (2019-05-26)
 ------------------
 
