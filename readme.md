@@ -1,6 +1,8 @@
 bigint-money
 ============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/evert/bigint-money.svg)](https://greenkeeper.io/)
+
 This library can be used for doing math with Money. Key features:
 
 * Uses the the Ecmascript [bigint][2] type.
