@@ -227,7 +227,7 @@ export class Money {
     // of them.
     const totalRoundedRemainder = ((roundedRemainder + remainder) * bParts) / precisionRounder;
 
-    const result: Array<bigint> = Array(parts).fill(roundedFraction);
+    const result: bigint[] = Array(parts).fill(roundedFraction);
 
     // Figure out how many spare 'cents' we need to distribute. If the number
     // is negative, we need to spread debt instead.
