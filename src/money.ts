@@ -280,7 +280,6 @@ export class Money {
    */
   [Symbol.for('nodejs.util.inspect.custom')](): string {
 
-    // The 4-digit choice is arbitrary. Might revise this.
     return this.format() + ' ' + this.currency;
 
   }
