@@ -1,8 +1,6 @@
 bigint-money
 ============
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/evert/bigint-money.svg)](https://greenkeeper.io/)
-
 This library can be used for doing math with Money. Key features:
 
 * Uses the the Ecmascript [bigint][2] type.
@@ -137,8 +135,6 @@ return a boolean.
 
 There is also a `compare()` function that returns `-1`, `0` or `-1` depending
 on if the passed argument was more, equal or less than the object.
-
-Right now the Money object has a single function for comparison.
 
 ```javascript
 const money1 = new Money('1.00', 'EUR');
