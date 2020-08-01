@@ -287,6 +287,31 @@ describe('Money class', () => {
 
   });
 
+  describe('pow', () => {
+
+    const cases: [string|number, number, string][] = [
+      ['1',  5,'1.00'],
+      ['2',  8, '256.00'],
+      [5,    3, '125.00'],
+      [-10,  5, '-100000.00'],
+      [-10,  1, '-10.00'],
+      [-10,  0, '1.00'],
+      [2,   -2, '0.25'],
+    ];
+
+    for (const cas of cases) {
+
+      it(`${cas[0]} ** ${cas[1]} = ${cas[2]}`, () => {
+
+        const x = new Money(cas[0], 'CAD');
+        expect(x.pow(cas[1]).toFixed(2)).to.equal(cas[2]);
+
+      });
+
+    }
+
+  });
+
   describe('abs', () => {
 
     const cases = [
