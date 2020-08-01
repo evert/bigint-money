@@ -17,13 +17,16 @@ test: lint
 test-debug:
 	mocha --inspect-brk
 
-.PHONY: lint
+.PHONY:lint
 lint:
-	tslint -c tslint.json --project tsconfig.json 'src/**/*.ts' 'test/**/*.ts'
+	eslint --quiet 'src/*.ts' 'test/*.ts'
 
-.PHONY: fix
+.PHONY:lint-fix
+lint-fix: fix
+
+.PHONY:fix
 fix:
-	tslint -c tslint.json --project tsconfig.json 'src/**/*.ts' 'test/**/*.ts' --fix
+	eslint --quiet 'src/**/*.ts' 'test/**/*.ts' --fix
 
 .PHONY: tsbuild
 tsbuild:

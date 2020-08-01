@@ -37,7 +37,7 @@ export function moneyValueToBigInt(input: Money | string | number | bigint, roun
   }
 
   switch (typeof input) {
-    case 'string' :
+    case 'string' : {
 
       const parts = input.match(/^(-)?([0-9]*)?(\.([0-9]*))?$/);
 
@@ -76,6 +76,7 @@ export function moneyValueToBigInt(input: Money | string | number | bigint, roun
         output *= -1n;
       }
       return output;
+    }
     case 'bigint':
       return input * PRECISION_M;
     case 'number' :
