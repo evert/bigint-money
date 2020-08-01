@@ -121,11 +121,7 @@ export class Money {
       throw new Error('You can currently only use pow() with whole numbers');
     }
 
-    if (exponent===1) {
-      return this;
-    } else if (exponent === 0) {
-      return new Money(1, this.currency);
-    } else if (exponent > 1) {
+    if (exponent > 1) {
       let base:Money = this;
       for(let i = 1; i < exponent; i++) {
         base = base.multiply(this);
