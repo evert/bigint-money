@@ -111,6 +111,37 @@ export class Money {
   }
 
   /**
+   * Pow returns the current value to it's exponent.
+   *
+   * pow currently only supports whole numbers.
+   */
+  pow(exponent: number | bigint): Money {
+
+    if (typeof exponent === 'number' && !Number.isInteger(exponent)) {
+      throw new Error('You can currently only use pow() with whole numbers');
+    }
+
+    if (exponent > 1) {
+      const resultBig = this.value ** BigInt(exponent);
+      return Money.fromSource(
+        divide(resultBig, PRECISION_M ** (BigInt(exponent)-1n), this.round),
+        this.currency,
+        this.round
+      );
+    } else {
+      // This handles the 0, 1 and negative exponent cases.
+      // This uses an iterative approach and is therefore not going to super
+      // fast.
+      let base:Money = this;
+      for(let i = 1; i > exponent; i--) {
+        base = base.divide(this);
+      }
+      return base;
+    }
+
+  }
+
+  /**
    * Returns the absolute value.
    */
   abs(): Money {

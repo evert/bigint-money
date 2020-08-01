@@ -118,6 +118,9 @@ const result = new Money(10).divide(3);
 
 // Multiplication
 const result = new Money('2000').multiply('1.25');
+
+// Powers
+const result = new Money(2).pow(8);
 ```
 
 ### Comparing objects
