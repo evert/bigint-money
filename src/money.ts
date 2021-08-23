@@ -132,6 +132,7 @@ export class Money {
       // This handles the 0, 1 and negative exponent cases.
       // This uses an iterative approach and is therefore not going to super
       // fast.
+      /* eslint-disable-next-line @typescript-eslint/no-this-alias */
       let base:Money = this;
       for(let i = 1; i > exponent; i--) {
         base = base.divide(this);
