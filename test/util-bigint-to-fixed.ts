@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { bigintToFixed, Round, PRECISION } from '../src/util';
 
 describe('bigintToFixed', () => {
-  
+
   const P = PRECISION;
 
   const tests = [
@@ -31,7 +31,7 @@ describe('bigintToFixed', () => {
   for(const test of tests) {
     it(`bigintToFixed(${test[0]},${test[1]}) === ${test[2]}`, () => {
 
-      const result = bigintToFixed(<bigint>test[0], <number>test[1], Round.BANKERS);
+      const result = bigintToFixed(test[0] as bigint, test[1] as number, Round.BANKERS);
       expect(result).to.equal(test[2]);
 
     });

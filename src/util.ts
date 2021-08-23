@@ -45,7 +45,7 @@ export function moneyValueToBigInt(input: Money | string | number | bigint, roun
         throw new TypeError('Input string must follow the pattern (-)##.## or -##');
       }
 
-      const signPart: '-'|undefined = <undefined|'-'> parts[1]; // Positive or negative
+      const signPart: '-'|undefined = parts[1] as ('-' | undefined); // Positive or negative
       const wholePart: string|undefined = parts[2]; // Whole numbers.
       const fracPart: string|undefined = parts[4];
 

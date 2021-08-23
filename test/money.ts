@@ -54,7 +54,7 @@ describe('Money class', () => {
       it(`should return ${test[2]} when calling toFixed on ${test[0]} with ${test[1]} precision`, () => {
 
         const m = new Money(test[0], 'USD');
-        expect(m.toFixed(<number>test[1])).to.equal(test[2]);
+        expect(m.toFixed(test[1] as number)).to.equal(test[2]);
 
       });
     }
@@ -401,7 +401,7 @@ describe('Money class', () => {
     it('should return a meaningful value', () => {
 
       const m = new Money(1, 'USD');
-      expect((<any> m)[Symbol.for('nodejs.util.inspect.custom')]()).to.equal('1 USD');
+      expect((m as any)[Symbol.for('nodejs.util.inspect.custom')]()).to.equal('1 USD');
 
     });
 
