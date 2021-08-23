@@ -2,7 +2,7 @@
     "compilerOptions": {
         "module": "commonjs",
         "esModuleInterop": true,
-        "target": "esnext",
+        "target": "es2018",
         "noImplicitAny": true,
 
         "strictFunctionTypes": true,
@@ -23,10 +23,7 @@
         },
         "lib": [
           "DOM",
-          "ES5",
-          "ES2015",
-          "ES2016",
-          "ES2017",
+          "ES2018",
           "ESNext.bigint"
         ],
 
