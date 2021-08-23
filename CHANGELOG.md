@@ -4,6 +4,7 @@ Changelog
 1.3.0 (2021-08-23)
 ------------------
 
+* A faster algorithm for negative powers (@oliverlj).
 * Yearly dependency update
 * Typescript 4, new linting rules, switch to github actions.
 
