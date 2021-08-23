@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.3.0 (2021-08-23)
+------------------
+
+* Yearly dependency update
+* Typescript 4, new linting rules, switch to github actions.
+
+
 1.2.0 (2020-08-01)
 ------------------
 
