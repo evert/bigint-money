@@ -2,7 +2,7 @@ import { UnsafeIntegerError } from './errors';
 import { Money } from './money';
 
 // How many digits we support
-export const PRECISION_I = 20;
+export const PRECISION_I = 10;
 
 // bigint version. We keep both so there's less conversions.
 export const PRECISION = BigInt(PRECISION_I);
