@@ -1,5 +1,6 @@
-import { Money, IncompatibleCurrencyError } from '../src';
+import { Money, IncompatibleCurrencyError } from '../src/index.js';
 import { expect } from 'chai';
+import { describe, it } from 'node:test';
 
 describe('Money.compare', () => {
 

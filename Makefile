@@ -11,7 +11,7 @@ clean:
 
 .PHONY: test
 test: lint
-	nyc mocha
+	npx tsx --test
 
 .PHONY: test-debug
 test-debug:

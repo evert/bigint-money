@@ -1,6 +1,7 @@
-import { Money, UnsafeIntegerError, IncompatibleCurrencyError } from '../src';
+import { Money, UnsafeIntegerError, IncompatibleCurrencyError } from '../src/index.js';
 import { expect } from 'chai';
 import { PRECISION_I } from '../src/util';
+import { describe, it } from 'node:test';
 
 describe('Money class', () => {
 

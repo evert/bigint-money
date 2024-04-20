@@ -1,6 +1,15 @@
 Changelog
 =========
 
+2.0.0 (????-??-??)
+------------------
+
+* Full ESM conversion. If you require the commonjs version of this library,
+  stay on the 1.x version until you are ready to upgrade.
+* Switch to built-in Node test runner and assertion library, and removed
+  `nyc`, `mocha` and `chai`.
+
+
 1.3.0 (2021-08-23)
 ------------------
 
@@ -32,8 +41,8 @@ Changelog
 ------------------
 
 * Added `abs()` function, to remove the sign from values. (@flaktack)
-* Added `sign()` function to find out if a number is postive, negative or
-  zero (@flaktack).
+* Added `sign()` function to find out if a number is postive, negative or zero
+  (@flaktack).
 
 
 0.8.2 (2019-04-03)
@@ -54,9 +63,9 @@ Changelog
 ------------------
 
 * Increased the precision to 20 digits, up from 12. Someone had a need for more
-  than 12 digits, and 20 seems like a reasonable new limit.
-  Perhaps at one point this will be configurable but picking a good default
-  seems like a sane choice right now.
+  than 12 digits, and 20 seems like a reasonable new limit. Perhaps at one
+  point this will be configurable but picking a good default seems like a sane
+  choice right now.
 
 
 0.7.1 (2019-03-19)
@@ -119,15 +128,17 @@ Changelog
 ------------------
 
 * This library now adds a `toJSON()` function that has a default serialization
-  for JSON files. Example: 1.5 USD will be JSON-stringified as `["1.5", "USD"]`.
+  for JSON files. Example: 1.5 USD will be JSON-stringified as `["1.5",
+  "USD"]`.
 * The Money class is now the default export.
+
 
 0.3.0 (2018-12-13)
 ------------------
 
 * Support for `divide()`, `multiply()`, `compare()`.
-* Added an implementation of the `allocate()` function from Fowler's
-  Enterprise Design Patterns.
+* Added an implementation of the `allocate()` function from Fowler's Enterprise
+  Design Patterns.
 * Fixed parsing string numbers without a fractional part.
 * Added `toSource()` and `fromSource()` methods to easily get access to the
   underlying bigint.
@@ -163,6 +174,6 @@ Changelog
 
 
 0.0.1 (2018-12-06)
------------------
+------------------
 
 * First started working on this.

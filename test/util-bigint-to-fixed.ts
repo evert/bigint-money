@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { bigintToFixed, Round, PRECISION } from '../src/util';
+import { bigintToFixed, Round, PRECISION } from '../src/util.js';
+import { describe, it } from 'node:test';
 
 describe('bigintToFixed', () => {
 

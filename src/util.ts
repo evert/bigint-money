@@ -1,5 +1,5 @@
-import { UnsafeIntegerError } from './errors';
-import { Money } from './money';
+import { UnsafeIntegerError } from './errors.js';
+import { Money } from './money.js';
 
 // How many digits we support
 export const PRECISION_I = 20;
@@ -15,12 +15,14 @@ export enum Round {
   // The following rules are round to the nearest integer, but have different
   // rules for when it's right in the middle (.5).
   HALF_TO_EVEN = 1,
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   BANKERS = 1, // Alias
   HALF_AWAY_FROM_0 = 2,
   HALF_TOWARDS_0 = 3,
 
   // These cases don't always round to the nearest integer
   TOWARDS_0 = 11, // Effectively drops the fractional part
+  // eslint-disable-next-line @typescript-eslint/no-duplicate-enum-values
   TRUNCATE = 11, // Alias
 }
 
