@@ -6,8 +6,9 @@ Changelog
 
 * Full ESM conversion. If you require the commonjs version of this library,
   stay on the 1.x version until you are ready to upgrade.
-* Switch to built-in Node test runner and assertion library, and removed
-  `nyc`, `mocha` and `chai`.
+* This library now requires Node 16.
+* Switch to built-in Node test runner and assertion library, and removed `nyc`,
+  `mocha` and `chai`.
 
 
 1.3.0 (2021-08-23)
