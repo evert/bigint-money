@@ -1,18 +1,9 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "target": "es2020",
-        "noImplicitAny": true,
+        "module": "NodeNext",
+        "target": "es2022",
+        "strict": true,
 
-        "strictFunctionTypes": true,
-        "noImplicitThis": true,
-        "alwaysStrict": true,
-        "noUnusedLocals": true,
-        "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true,
-
-        "moduleResolution": "node",
         "sourceMap": true,
         "outDir": "dist",
         "baseUrl": ".",

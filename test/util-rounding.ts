@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import { divide, Round } from '../src/util';
+import { divide, Round } from '../src/util.js';
+import { describe, it } from 'node:test';
 
 describe('divide', () => {
 

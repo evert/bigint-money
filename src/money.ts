@@ -1,4 +1,4 @@
-import { IncompatibleCurrencyError } from './errors';
+import { IncompatibleCurrencyError } from './errors.js';
 import {
   bigintToFixed,
   divide,
@@ -7,7 +7,7 @@ import {
   PRECISION_I,
   PRECISION_M,
   Round,
-} from './util';
+} from './util.js';
 
 export class Money {
 
