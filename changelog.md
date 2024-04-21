@@ -1,7 +1,7 @@
 Changelog
 =========
 
-2.0.0 (????-??-??)
+2.0.0 (2024-04-21)
 ------------------
 
 * Full ESM conversion. If you require the commonjs version of this library,
