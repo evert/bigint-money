@@ -1,6 +1,6 @@
-import { expect } from 'chai';
 import { bigintToFixed, Round, PRECISION } from '../src/util.js';
 import { describe, it } from 'node:test';
+import assert from 'node:assert';
 
 describe('bigintToFixed', () => {
 
@@ -33,7 +33,10 @@ describe('bigintToFixed', () => {
     it(`bigintToFixed(${test[0]},${test[1]}) === ${test[2]}`, () => {
 
       const result = bigintToFixed(test[0] as bigint, test[1] as number, Round.BANKERS);
-      expect(result).to.equal(test[2]);
+      assert.equal(
+        result,
+        test[2]
+      );
 
     });
   }

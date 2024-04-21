@@ -1,6 +1,6 @@
 import { Money, IncompatibleCurrencyError } from '../src/index.js';
-import { expect } from 'chai';
 import { describe, it } from 'node:test';
+import assert from 'node:assert';
 
 describe('Money.compare', () => {
 
@@ -31,7 +31,10 @@ describe('Money.compare', () => {
     it(`${cas[0]} ${op} ${cas[1]} === true`, () => {
 
       const x = new Money(cas[0], 'AUD');
-      expect(x.compare(cas[1])).to.equal(cas[2]);
+      assert.equal(
+        x.compare(cas[1]),
+        cas[2]
+      );
 
     });
 
@@ -41,7 +44,10 @@ describe('Money.compare', () => {
 
     const x = new Money(1, 'AUD');
     const y = new Money(2, 'NZD');
-    expect(() => x.compare(y)).to.throw(IncompatibleCurrencyError);
+    assert.throws(
+      () => x.compare(y),
+      IncompatibleCurrencyError
+    );
 
   });
 
@@ -64,7 +70,10 @@ describe('Money.isLesserThan', () => {
     it(`${cas[0]}.isLesserThan(${cas[1]}) === true`, () => {
 
       const x = new Money(cas[0], 'AUD');
-      expect(x.isLesserThan(cas[1])).to.equal(cas[2]);
+      assert.equal(
+        x.isLesserThan(cas[1]),
+        cas[2]
+      );
 
     });
 
@@ -89,7 +98,10 @@ describe('Money.isGreaterThan', () => {
     it(`${cas[0]}.isGreaterThan(${cas[1]}) === true`, () => {
 
       const x = new Money(cas[0], 'AUD');
-      expect(x.isGreaterThan(cas[1])).to.equal(cas[2]);
+      assert.equal(
+        x.isGreaterThan(cas[1]),
+        cas[2]
+      );
 
     });
 
@@ -114,7 +126,10 @@ describe('Money.isEqual', () => {
     it(`${cas[0]}.isEqual(${cas[1]}) === true`, () => {
 
       const x = new Money(cas[0], 'AUD');
-      expect(x.isEqual(cas[1])).to.equal(cas[2]);
+      assert.equal(
+        x.isEqual(cas[1]),
+        cas[2]
+      );
 
     });
 
@@ -139,7 +154,10 @@ describe('Money.isLesserThanOrEqual', () => {
     it(`${cas[0]}.isLesserThanOrEqual(${cas[1]}) === true`, () => {
 
       const x = new Money(cas[0], 'AUD');
-      expect(x.isLesserThanOrEqual(cas[1])).to.equal(cas[2]);
+      assert.equal(
+        x.isLesserThanOrEqual(cas[1]),
+        cas[2]
+      );
 
     });
 
@@ -164,8 +182,10 @@ describe('Money.isGreaterThanOrEqual', () => {
     it(`${cas[0]}.isGreaterThanOrEqual(${cas[1]}) === true`, () => {
 
       const x = new Money(cas[0], 'AUD');
-      expect(x.isGreaterThanOrEqual(cas[1])).to.equal(cas[2]);
-
+      assert.equal(
+        x.isGreaterThanOrEqual(cas[1]),
+        cas[2]
+      );
     });
 
   }

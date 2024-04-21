@@ -1,6 +1,6 @@
-import { expect } from 'chai';
 import { divide, Round } from '../src/util.js';
 import { describe, it } from 'node:test';
+import assert from 'node:assert';
 
 describe('divide', () => {
 
@@ -23,9 +23,10 @@ describe('divide', () => {
 
       it(`${test[0]} / ${test[1]} = ${test[2]}`, () => {
 
-        expect(
+        assert.equal(
           divide(test[0], test[1], Round.HALF_TO_EVEN),
-        ).to.equal(test[2]);
+          test[2]
+        );
 
       });
 
@@ -52,9 +53,10 @@ describe('divide', () => {
 
       it(`${test[0]} / ${test[1]} = ${test[2]}`, () => {
 
-        expect(
+        assert.equal(
           divide(test[0], test[1], Round.HALF_AWAY_FROM_0),
-        ).to.equal(test[2]);
+          test[2]
+        );
 
       });
 
@@ -81,9 +83,10 @@ describe('divide', () => {
 
       it(`${test[0]} / ${test[1]} = ${test[2]}`, () => {
 
-        expect(
+        assert.equal(
           divide(test[0], test[1], Round.HALF_TOWARDS_0),
-        ).to.equal(test[2]);
+          test[2]
+        );
 
       });
 
@@ -111,9 +114,10 @@ describe('divide', () => {
 
       it(`${test[0]} / ${test[1]} = ${test[2]}`, () => {
 
-        expect(
+        assert.equal(
           divide(test[0], test[1], Round.TRUNCATE),
-        ).to.equal(test[2]);
+          test[2],
+        );
 
       });
 
