@@ -2,7 +2,7 @@ project:=bigint-money
 export PATH:=./node_modules/.bin/:$(PATH)
 
 .PHONY: build
-build: browser/${PROJECT}.min.js
+build: tsbuild
 
 .PHONY: clean
 clean:
@@ -11,7 +11,7 @@ clean:
 
 .PHONY: test
 test: lint
-	npx tsx --test
+	npx tsx --test test/*.ts
 
 .PHONY: test-debug
 test-debug:
@@ -35,14 +35,3 @@ tsbuild:
 .PHONY: watch
 watch:
 	tsc --watch
-
-.PHONY: browserbuild
-browserbuild: tsbuild
-	# mkdir -p browser
-	# webpack \
-	#	--optimize-minimize \
-	#	-p \
-	#	--display-modules \
-	#	--sort-modules-by size
-
-browser/${PROJECT}.min.js: browserbuild

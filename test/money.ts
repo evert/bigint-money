@@ -1,37 +1,39 @@
 import { Money, UnsafeIntegerError, IncompatibleCurrencyError } from '../src/index.js';
-import { expect } from 'chai';
 import { PRECISION_I } from '../src/util';
 import { describe, it } from 'node:test';
+import assert from 'node:assert';
 
 describe('Money class', () => {
 
   it('should instantiate', () => {
 
     const m = new Money(1, 'USD');
-    expect(m).to.be.an.instanceof(Money);
-    expect(m.currency).to.equal('USD');
+    assert.ok(m instanceof Money);
+    assert.equal(m.currency, 'USD');
 
   });
 
   it('should error when instantiating with inprecise numbers', () => {
 
-    expect( () => {
-      new Money(1.1, 'yen');
-    }).to.throw(UnsafeIntegerError);
+    assert.throws(
+      () => new Money(1.1, 'yen'),
+      UnsafeIntegerError
+    );
 
   });
 
   it('should error when instantiating with bad string formats', () => {
 
-    expect( () => {
-      new Money('1,5', 'yen');
-    }).to.throw(TypeError);
+    assert.throws(
+      () => new Money('1,5', 'yen'),
+      TypeError,
+    );
 
   });
 
   describe('toFixed', () => {
 
-    const tests = [
+    const tests: [any, number, string][] = [
       [1, 3, '1.000'],
 
       ['3.5', 0, '4'],
@@ -54,8 +56,10 @@ describe('Money class', () => {
     for(const test of tests) {
       it(`should return ${test[2]} when calling toFixed on ${test[0]} with ${test[1]} precision`, () => {
 
-        const m = new Money(test[0], 'USD');
-        expect(m.toFixed(test[1] as number)).to.equal(test[2]);
+        assert.equal(
+          new Money(test[0], 'USD').toFixed(test[1]),
+          test[2]
+        );
 
       });
     }
@@ -77,7 +81,7 @@ describe('Money class', () => {
       it(`should return ${test[1]} when calling format on ${test[0]}`, () => {
 
         const m = new Money(test[0], 'USD');
-        expect(m.format()).to.equal(test[1]);
+        assert.equal(m.format(), test[1]);
 
       });
     }
@@ -91,18 +95,23 @@ describe('Money class', () => {
     it('should round to even', () => {
 
       const m = new Money('1.' + zeroes + '05', 'USD');
-      expect(m).to.be.an.instanceof(Money);
-      expect(m.currency).to.equal('USD');
-      expect(m.toFixed(PRECISION_I + 1)).to.equal('1.' + zeroes + '00');
-
+      assert.ok(m instanceof Money);
+      assert.equal(m.currency, 'USD');
+      assert.equal(
+        m.toFixed(PRECISION_I + 1),
+        '1.' + zeroes + '00'
+      );
     });
 
     it('should round to even (2)', () => {
 
       const m = new Money('1.' + zeroes + '15', 'USD');
-      expect(m).to.be.an.instanceof(Money);
-      expect(m.currency).to.equal('USD');
-      expect(m.toFixed(PRECISION_I + 1)).to.equal('1.' + zeroes + '20');
+      assert.ok(m instanceof Money);
+      assert.equal(m.currency,'USD');
+      assert.equal(
+        m.toFixed(PRECISION_I + 1),
+        '1.' + zeroes + '20'
+      );
 
     });
 
@@ -116,7 +125,10 @@ describe('Money class', () => {
       const y = new Money(2, 'USD');
       const z = y.add(x);
 
-      expect(z.toFixed(3)).to.equal('3.000');
+      assert.equal(
+        z.toFixed(3),
+        '3.000'
+      );
 
     });
 
@@ -126,7 +138,10 @@ describe('Money class', () => {
       const y = new Money(2, 'USD');
       const z = y.add(x);
 
-      expect(z.toFixed(3)).to.equal('3.000');
+      assert.equal(
+        z.toFixed(3),
+        '3.000'
+      );
 
     });
 
@@ -135,11 +150,14 @@ describe('Money class', () => {
       const x = new Money(1, 'USD');
       const y = new Money(2, 'YEN');
 
-      expect( () => y.add(x)).to.throw(IncompatibleCurrencyError);
+      assert.throws(
+        () => y.add(x),
+        IncompatibleCurrencyError
+      );
 
     });
 
-    const cases = [
+    const cases: [string|number, string|number, string][] = [
       ['0.1', '0.2', '0.30'],
       ['0.3', '-0.2', '0.10'],
       [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER, '18014398509481982.00'],
@@ -157,7 +175,10 @@ describe('Money class', () => {
         const x = new Money(cas[0], 'USD');
         const y = new Money(cas[1], 'USD');
 
-        expect(x.add(y).toFixed(2)).to.equal(cas[2]);
+        assert.equal(
+          x.add(y).toFixed(2),
+          cas[2]
+        );
 
       });
 
@@ -173,7 +194,10 @@ describe('Money class', () => {
       const y = new Money(2, 'USD');
       const z = x.subtract(y);
 
-      expect(z.toFixed(3)).to.equal('-1.000');
+      assert.equal(
+        z.toFixed(3),
+        '-1.000'
+      );
 
     });
 
@@ -183,7 +207,10 @@ describe('Money class', () => {
       const y = new Money(2, 'USD');
       const z = y.subtract(x);
 
-      expect(z.toFixed(3)).to.equal('-1.000');
+      assert.equal(
+        z.toFixed(3),
+        '-1.000'
+      );
 
     });
 
@@ -192,7 +219,10 @@ describe('Money class', () => {
       const x = new Money(1, 'USD');
       const y = new Money(2, 'YEN');
 
-      expect( () => y.subtract(x)).to.throw(IncompatibleCurrencyError);
+      assert.throws(
+        () => y.subtract(x),
+        IncompatibleCurrencyError
+      );
 
     });
 
@@ -210,7 +240,10 @@ describe('Money class', () => {
         const x = new Money(cas[0], 'USD');
         const y = new Money(cas[1], 'USD');
 
-        expect(x.subtract(y).toFixed(2)).to.equal(cas[2]);
+        assert.equal(
+          x.subtract(y).toFixed(2),
+          cas[2]
+        );
 
       });
 
@@ -252,7 +285,10 @@ describe('Money class', () => {
       it(`${cas[0]} / ${cas[1]} = ${cas[2]}`, () => {
 
         const x = new Money(cas[0], 'ETH');
-        expect(x.divide(cas[1]).toFixed(2)).to.equal(cas[2]);
+        assert.equal(
+          x.divide(cas[1]).toFixed(2),
+          cas[2]
+        );
 
       });
 
@@ -280,7 +316,10 @@ describe('Money class', () => {
       it(`${cas[0]} * ${cas[1]} = ${cas[2]}`, () => {
 
         const x = new Money(cas[0], 'ETH');
-        expect(x.multiply(cas[1]).toFixed(2)).to.equal(cas[2]);
+        assert.equal(
+          x.multiply(cas[1]).toFixed(2),
+          cas[2]
+        );
 
       });
 
@@ -305,7 +344,7 @@ describe('Money class', () => {
       it(`${cas[0]} ** ${cas[1]} = ${cas[2]}`, () => {
 
         const x = new Money(cas[0], 'CAD');
-        expect(x.pow(cas[1]).toFixed(2)).to.equal(cas[2]);
+        assert.equal(x.pow(cas[1]).toFixed(2),cas[2]);
 
       });
 
@@ -330,7 +369,7 @@ describe('Money class', () => {
       it(`abs(${cas[0]}) = ${cas[1]}`, () => {
 
         const x = new Money(cas[0], 'ETH');
-        expect(x.abs().toFixed(2)).to.equal(cas[1]);
+        assert.equal(x.abs().toFixed(2), cas[1]);
 
       });
 
@@ -355,7 +394,7 @@ describe('Money class', () => {
       it(`sign(${cas[0]}) = ${cas[1]}`, () => {
 
         const x = new Money(cas[0], 'ETH');
-        expect(x.sign()).to.equal(cas[1]);
+        assert.equal(x.sign(), cas[1]);
 
       });
 
@@ -376,10 +415,20 @@ describe('Money class', () => {
         const x = new Money(cas[0], 'CAD');
         const result = x.allocate(cas[1], cas[2]);
 
-        expect(result.map( item => item.toFixed(cas[2]))).to.eql(cas[3]);
+        assert.deepEqual(
+          result.map(
+            item => item.toFixed(cas[2])
+          ),
+          cas[3]
+        );
 
         // Double-check. Numbers must exactly add up to the source value
-        expect(result.reduce( (acc, cur) => acc + cur.toSource(), 0n)).to.equal(x.toSource());
+        assert.deepEqual(
+          result.reduce(
+            (acc, cur) => acc + cur.toSource(), 0n
+          ),
+          x.toSource()
+        );
 
       });
 
@@ -391,7 +440,10 @@ describe('Money class', () => {
     it('should return the underlying source bigint value', () => {
 
       const m = new Money(1, 'USD');
-      expect(m.toSource()).to.equal(1n * (10n ** BigInt(PRECISION_I)));
+      assert.equal(
+        m.toSource(),
+        1n * (10n ** BigInt(PRECISION_I))
+      );
 
     });
 
@@ -402,7 +454,11 @@ describe('Money class', () => {
     it('should return a meaningful value', () => {
 
       const m = new Money(1, 'USD');
-      expect((m as any)[Symbol.for('nodejs.util.inspect.custom')]()).to.equal('1 USD');
+
+      assert.equal(
+        (m as any)[Symbol.for('nodejs.util.inspect.custom')](),
+        '1 USD'
+      );
 
     });
 
@@ -424,7 +480,7 @@ describe('Money class', () => {
 
         const m = new Money(cas[0], 'DKK');
         const result = JSON.stringify(m);
-        expect(result).to.equal(cas[1]);
+        assert.equal(result, cas[1]);
 
       });
 
