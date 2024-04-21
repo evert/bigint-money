@@ -3,7 +3,7 @@ bigint-money
 
 This library can be used for doing math with Money. Key features:
 
-* Uses the the Ecmascript [bigint][2] type.
+* Uses the Ecmascript [bigint][2] type.
 * Written in Typescript.
 * Loosely follows [Martin Fowler's Money Type][3] from
  ["Patterns of Enterprise Application Architecture"][4].
@@ -13,15 +13,11 @@ This library can be used for doing math with Money. Key features:
   specified.
 * Uses 20 decimals for all calculations.
 
-`bigint` is still a fairly new Javascript. As of today it works in
-up-to-date versions of Chrome, Firefox and Node.js, but not yet in
-Safari. To see the current support status check out [caniuse.com][5].
-
 
 Benchmark
 ---------
 
-Most 'money' libraries on NPM only use 2 digits for precision, or use 
+Most 'money' libraries on NPM only use 2 digits for precision, or use
 Javacript's "number" and will quickly overflow.
 
 The only comparible library I found was [big-money][7]. It's probably
@@ -51,7 +47,7 @@ Usage
 Creating a money object.
 
 ```javascript
-const { Money } = require('bigint-money');
+import Money from 'bigint-money';
 const foo = new Money('5', 'USD');
 ```
 
@@ -288,6 +284,5 @@ There's a lot more info on the [Google Blog][2].
 [2]: https://developers.google.com/web/updates/2018/05/bigint
 [3]: https://martinfowler.com/eaaCatalog/money.html
 [4]: https://amzn.to/2EezezD "Note: affiliate link"
-[5]: https://caniuse.com/#search=bigint
 [6]: http://wiki.c2.com/?BankersRounding
 [7]: https://www.npmjs.com/package/big-money
