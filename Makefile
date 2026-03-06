@@ -10,7 +10,7 @@ clean:
 	rm -r dist/
 
 .PHONY: test
-test: lint
+test:
 	npx tsx --test test/*.ts
 
 .PHONY: test-debug

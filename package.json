@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "make test",
+    "lint": "make lint",
     "prepublishOnly": "make build"
   },
   "repository": {
