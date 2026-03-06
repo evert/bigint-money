@@ -1,6 +1,6 @@
-const bigintMoney = require('bigint-money');
-const BigMoney = require('bigmoney.js');
-const moneyMath = require('money-math');
+/* eslint-disable no-console */
+import * as bigintMoney from 'bigint-money';
+import BigMoney from 'bigmoney.js';
 
 const benchmarks = [
 
@@ -46,7 +46,7 @@ const benchmarks = [
 
       }
 
-      return m.format()
+      return m.format();
 
     }
 
@@ -54,7 +54,7 @@ const benchmarks = [
 
 ];
 
-const ledger = []; 
+const ledger = [];
 
 for(let ii = 0; ii < 1000000; ii++ ) {
 
